@@ -9,9 +9,10 @@
           hide-no-data
           hide-selected
           :items="items"
-          item-text="Description"
+          item-text="shortname"
+          item-value="shortname"
           return-object
-        ></v-autocomplete>
+        > </v-autocomplete>
       </v-col>
     </v-row>
     <v-row>
@@ -76,15 +77,8 @@ export default {
   },
   computed: {
     items() {
-      return this.quotes.map((quote) => {
-        const Description =
-          quote.symbol.length > 60
-            ? quote.Description.slice(0, 60) + "..."
-            : quote.Description;
-
-        return Object.assign({}, quote, { Description });
-      });
-    },
+      return this.quotes
+    }
   },
   watch: {
     async search(val) {
@@ -101,8 +95,7 @@ export default {
       await axios
         .request(options)
         .then((response) => {
-          console.log(response.data.quotes);
-          console.log(this);
+          console.log(response.data);
           this.quotes = response.data.quotes;
         })
         .catch(function(error) {
