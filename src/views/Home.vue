@@ -12,7 +12,8 @@
           item-text="shortname"
           item-value="shortname"
           return-object
-        > </v-autocomplete>
+        >
+        </v-autocomplete>
       </v-col>
     </v-row>
     <v-row>
@@ -57,8 +58,8 @@
 </template>
 
 <script>
-// import HelloWorld from '../components/HelloWorld'
-import axios from "axios";
+// import axios from "axios";
+import api from "../api";
 
 export default {
   components: {},
@@ -77,51 +78,28 @@ export default {
   },
   computed: {
     items() {
-      return this.quotes
-    }
+      return this.quotes;
+    },
   },
   watch: {
     async search(val) {
-      const options = {
-        method: "GET",
-        url: "https://apidojo-yahoo-finance-v1.p.rapidapi.com/auto-complete",
-        params: { q: val, region: "US" },
-        headers: {
-          "x-rapidapi-key":
-            "c443088b61msh8caed034aacf628p17d611jsnb0d8e92e252e",
-          "x-rapidapi-host": "apidojo-yahoo-finance-v1.p.rapidapi.com",
-        },
+      const params = {
+        q: val,
+        region: "US",
       };
-      await axios
-        .request(options)
-        .then((response) => {
-          console.log(response.data);
-          this.quotes = response.data.quotes;
+      await api
+        .getAutoComplete(params)
+        .then((res) => {
+          console.log(res.data);
+          this.quotes = res.data.quotes;
         })
-        .catch(function(error) {
+        .catch(function (error) {
           console.error(error);
         });
     },
   },
   mounted() {
-    // const options = {
-    //   method: "GET",
-    //   url: "https://apidojo-yahoo-finance-v1.p.rapidapi.com/auto-complete",
-    //   params: { q: this.search, region: "US" },
-    //   headers: {
-    //     "x-rapidapi-key": "c443088b61msh8caed034aacf628p17d611jsnb0d8e92e252e",
-    //     "x-rapidapi-host": "apidojo-yahoo-finance-v1.p.rapidapi.com",
-    //   },
-    // };
-    // axios
-    //   .request(options)
-    //   .then(function(response) {
-    //     console.log(response.data);
-    //   })
-    //   .catch(function(error) {
-    //     console.error(error);
-    //   });
-    // Make a request for a user with a given ID
+   
   },
 };
 </script>
