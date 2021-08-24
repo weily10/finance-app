@@ -41,27 +41,34 @@
       </v-card>
     </v-dialog>
     <v-list three-line>
-   
       <v-toolbar depressed class="elevation-0">
         <h3>Assets</h3>
         <v-spacer></v-spacer>
-        <v-btn color="blue"  rounded depressed   dark @click="dialog1 = true"
-          > <v-icon>mdi-plus</v-icon><v-spacer></v-spacer>  add </v-btn>
+        <v-btn color="blue" rounded depressed dark @click="dialog1 = true">
+          <v-icon>mdi-plus</v-icon><v-spacer></v-spacer> add
+        </v-btn>
       </v-toolbar>
-          <div v-show="assets.length < 0">
+      <div v-show="assets.length < 0">
         <div align="center">no data</div>
-       
       </div>
       <template v-for="(asset, index) in assets">
         <div :key="asset + index">
           <div class="flex pt-3">
-            <div class="pa-3"><span class="grey--text">value: </span>$ {{ asset.assetValue }}</div>
-            <div class="pa-3"><span class="grey--text">dividend: </span>{{ asset.divyield }}%</div>
+            <div class="pa-3">
+              <span class="grey--text">value: </span>$
+              {{ Intl.NumberFormat().format(asset.assetValue) }}
+            </div>
+            <div class="pa-3">
+              <span class="grey--text">dividend: </span>{{ asset.divyield }}%
+            </div>
           </div>
           <v-divider></v-divider>
         </div>
       </template>
     </v-list>
+    <v-card class="mt-5 elevation-0">
+      <div class="ma-3">Your total dividends: ${{ sumDiv() }}</div>
+    </v-card>
   </v-container>
 </template>
 
@@ -83,16 +90,31 @@ export default {
       search: null,
     };
   },
+
   methods: {
     addData(assetValue, divyield) {
-      this.dialog1 = false;
       // console.log(assetValue,divyield);
       this.assets.push({
-        assetValue: Intl.NumberFormat().format(assetValue),
+        assetValue: assetValue,
         divyield: divyield,
       });
+
+      this.dialog1 = false;
+    },
+
+    sumDiv() {
+      let total = 0;
+
+      total = this.assets.reduce((acc, item) => {
+        return acc + item.assetValue * item.divyield/100;
+      }, 0);
+
+
+      return total;
     },
   },
+
+  computed: {},
 
   mounted() {},
 };
