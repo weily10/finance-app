@@ -55,8 +55,8 @@
       <template v-for="(asset, index) in assets">
         <div :key="asset + index">
           <div class="flex pt-3">
-            <div class="pa-3">value: $ {{ asset.assetValue }}</div>
-            <div class="pa-3">dividend: {{ asset.divyield }}%</div>
+            <div class="pa-3"><span class="grey--text">value: </span>$ {{ asset.assetValue }}</div>
+            <div class="pa-3"><span class="grey--text">dividend: </span>{{ asset.divyield }}%</div>
           </div>
           <v-divider></v-divider>
         </div>
