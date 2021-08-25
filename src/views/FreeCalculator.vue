@@ -7,6 +7,7 @@
             label="asset value"
             v-model="assetValue"
             type="number"
+            clearable
           ></v-text-field>
 
           <v-text-field
@@ -14,12 +15,14 @@
             v-model="divyield"
             type="number"
             suffix="%"
+            clearable
           ></v-text-field>
           <v-btn
             color="blue"
             dark
             depressed
             block
+            clearable
             @click="addData(assetValue, divyield)"
             >ok</v-btn
           >
@@ -54,12 +57,13 @@
       <template v-for="(asset, index) in assets">
         <div :key="asset + index">
           <div class="flex pt-3">
-            <div class="pa-3">
-              <span class="grey--text">value: </span>$
-              {{ Intl.NumberFormat().format(asset.assetValue) }}
+            <div class="pa-1 flex width-1">
+              <div class="grey--text">value:</div>
+              <div>$ {{ Intl.NumberFormat().format(asset.assetValue) }}</div>
             </div>
-            <div class="pa-3">
-              <span class="grey--text">dividend: </span>{{ asset.divyield }}%
+            <div class="pa-1 flex width-1">
+              <div class="grey--text">dividend:</div>
+              <div>{{ asset.divyield }}%</div>
             </div>
           </div>
           <v-divider></v-divider>
@@ -67,7 +71,15 @@
       </template>
     </v-list>
     <v-card class="mt-5 elevation-0">
-      <div class="ma-3">Your total dividends: ${{ sumDiv() }}</div>
+      <div class="ma-3">total investment: ${{ sumAssets().toFixed(2) }}</div>
+    </v-card>
+    <v-card class="elevation-0">
+      <div class="ma-3">your total dividends: ${{ sumDiv().toFixed(2) }}</div>
+    </v-card>
+    <v-card class="elevation-0">
+      <div class="ma-3">
+        monthly dividend average: ${{ (sumDiv() / 12).toFixed(2) }}
+      </div>
     </v-card>
   </v-container>
 </template>
@@ -106,9 +118,21 @@ export default {
       let total = 0;
 
       total = this.assets.reduce((acc, item) => {
-        return acc + item.assetValue * item.divyield/100;
+        return acc + (item.assetValue * item.divyield) / 100;
       }, 0);
 
+      return total;
+    },
+
+    sumAssets() {
+      let total = 0;
+      total = this.assets
+        .map((item) => {
+          return item;
+        })
+        .reduce((prev, item) => {
+          return parseInt(prev) + parseInt(item.assetValue);
+        }, 0);
 
       return total;
     },
@@ -122,5 +146,8 @@ export default {
 <style scoped>
 .flex {
   display: flex;
+}
+.width-1 {
+  width: 50%;
 }
 </style>
