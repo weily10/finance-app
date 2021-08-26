@@ -47,7 +47,7 @@
       outlined
       height="300px"
       max-height="450px"
-      class="elevation--0 pa-3"
+      class="pa-3"
     >
       <div class="pa-1 flex">
         <h3>Assets</h3>
@@ -56,7 +56,7 @@
           <v-icon>mdi-plus</v-icon><v-spacer></v-spacer> add
         </v-btn>
       </div>
-      <div width="100%" height="230px" class="elevation--0 pa-3 mx-auto scroll">
+      <v-card width="100%" height="230px" elevation=0 class=" pa-3 mx-auto scroll">
         <v-list three-line>
           <div v-show="assets.length < 0">
             <div align="center">no data</div>
@@ -79,7 +79,7 @@
             </div>
           </template>
         </v-list>
-      </div>
+      </v-card>
     </v-card>
     <v-card class="mt-3 pa-3 elevation--0" outlined>
       <div class="ma-3 flex">
