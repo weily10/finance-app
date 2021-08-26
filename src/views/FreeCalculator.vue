@@ -56,7 +56,7 @@
           <v-icon>mdi-plus</v-icon><v-spacer></v-spacer> add
         </v-btn>
       </div>
-      <v-card width="100%" height="230px" elevation=0 class=" pa-3 mx-auto scroll">
+      <v-card width="100%" height="230px" elevation=0 class=" mx-auto scroll">
         <v-list three-line>
           <div v-show="assets.length < 0">
             <div align="center">no data</div>
@@ -98,6 +98,7 @@
         <div class="width-2">monthly average:</div>
         <div class="width-2">${{ (sumDiv() / 12).toFixed(2) }}</div>
       </div>
+
     </v-card>
   </v-container>
 </template>
@@ -173,7 +174,7 @@ export default {
   display: flex;
 }
 .width-1 {
-  width: 40%;
+  width: 35%;
 }
 .width-2 {
   width: 50%;
