@@ -43,42 +43,60 @@
         </v-col> -->
       </v-card>
     </v-dialog>
-    <v-list three-line>
-      <v-toolbar depressed class="elevation-0">
+    <v-card
+      outlined
+      height="300px"
+      max-height="450px"
+      class="elevation--0 pa-3"
+    >
+      <div class="pa-1 flex">
         <h3>Assets</h3>
         <v-spacer></v-spacer>
         <v-btn color="blue" rounded depressed dark @click="dialog1 = true">
           <v-icon>mdi-plus</v-icon><v-spacer></v-spacer> add
         </v-btn>
-      </v-toolbar>
-      <div v-show="assets.length < 0">
-        <div align="center">no data</div>
       </div>
-      <template v-for="(asset, index) in assets">
-        <div :key="asset + index">
-          <div class="flex pt-3">
-            <div class="pa-1 flex width-1">
-              <div class="grey--text">value:</div>
-              <div>$ {{ Intl.NumberFormat().format(asset.assetValue) }}</div>
-            </div>
-            <div class="pa-1 flex width-1">
-              <div class="grey--text">dividend:</div>
-              <div>{{ asset.divyield }}%</div>
-            </div>
+      <div width="100%" height="230px" class="elevation--0 pa-3 mx-auto scroll">
+        <v-list three-line>
+          <div v-show="assets.length < 0">
+            <div align="center">no data</div>
           </div>
-          <v-divider></v-divider>
-        </div>
-      </template>
-    </v-list>
-    <v-card class="mt-5 elevation-0">
-      <div class="ma-3">total investment: ${{ sumAssets().toFixed(2) }}</div>
+          <template v-for="(asset, index) in assets">
+            <div :key="asset + index">
+              <div class="flex pt-1 pb-1">
+                <div class="pa-1 flex width-1">
+                  <div class="grey--text">value:</div>
+                  <div>
+                    $ {{ Intl.NumberFormat().format(asset.assetValue) }}
+                  </div>
+                </div>
+                <div class="pa-1 flex width-2">
+                  <div class="grey--text">anual dividend(%):</div>
+                  <div>{{ asset.divyield }}%</div>
+                </div>
+              </div>
+              <v-divider></v-divider>
+            </div>
+          </template>
+        </v-list>
+      </div>
     </v-card>
-    <v-card class="elevation-0">
-      <div class="ma-3">your total dividends: ${{ sumDiv().toFixed(2) }}</div>
-    </v-card>
-    <v-card class="elevation-0">
-      <div class="ma-3">
-        monthly dividend average: ${{ (sumDiv() / 12).toFixed(2) }}
+    <v-card class="mt-3 pa-3 elevation--0" outlined>
+      <div class="ma-3 flex">
+        <div class="width-2">total investment:</div>
+        <div class="width-2">${{ sumAssets().toFixed(2) }}</div>
+      </div>
+      <div class="ma-3 flex">
+        <div class="width-2">total dividends:</div>
+        <div class="width-2">${{ sumDiv().toFixed(2) }}</div>
+      </div>
+      <div class="ma-3 flex">
+        <div class="width-2">monthly average:</div>
+        <div class="width-2">${{ (sumDiv() / 12).toFixed(2) }}</div>
+      </div>
+      <div class="ma-3 flex">
+        <div class="width-2">monthly average:</div>
+        <div class="width-2">${{ (sumDiv() / 12).toFixed(2) }}</div>
       </div>
     </v-card>
   </v-container>
@@ -89,6 +107,7 @@ export default {
   components: {},
   data() {
     return {
+      offsetTop: 0,
       assets: [],
       dialog1: false,
       quotes: [],
@@ -136,6 +155,9 @@ export default {
 
       return total;
     },
+    onScroll(e) {
+      this.offsetTop = e.target.scrollTop;
+    },
   },
 
   computed: {},
@@ -144,10 +166,16 @@ export default {
 };
 </script>
 <style scoped>
+.scroll {
+  overflow-y: scroll;
+}
 .flex {
   display: flex;
 }
 .width-1 {
+  width: 40%;
+}
+.width-2 {
   width: 50%;
 }
 </style>
