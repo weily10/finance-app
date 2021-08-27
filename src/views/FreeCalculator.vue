@@ -43,12 +43,7 @@
         </v-col> -->
       </v-card>
     </v-dialog>
-    <v-card
-      outlined
-      height="300px"
-      max-height="450px"
-      class="pa-3"
-    >
+    <v-card outlined height="300px" max-height="450px" class="pa-3">
       <div class="pa-1 flex">
         <h3>Assets</h3>
         <v-spacer></v-spacer>
@@ -56,24 +51,33 @@
           <v-icon>mdi-plus</v-icon><v-spacer></v-spacer> add
         </v-btn>
       </div>
-      <v-card width="100%" height="230px" elevation=0 class=" mx-auto scroll">
+      <v-card width="100%" height="230px" elevation="0" class="mx-auto scroll">
         <v-list three-line>
           <div v-show="assets.length < 0">
             <div align="center">no data</div>
           </div>
           <template v-for="(asset, index) in assets">
             <div :key="asset + index">
-              <div class="flex pt-1 pb-1">
-                <div class="pa-1 flex width-1">
-                  <div class="grey--text">value:</div>
-                  <div>
+              <div class="flex pt-1 pl-1">
+                <v-list-item-content class="pa-0">
+                  <v-list-item-title>
                     $ {{ Intl.NumberFormat().format(asset.assetValue) }}
-                  </div>
-                </div>
-                <div class="pa-1 flex width-2">
-                  <div class="grey--text">anual dividend(%):</div>
-                  <div>{{ asset.divyield }}%</div>
-                </div>
+                  </v-list-item-title>
+                  <v-list-item-subtitle class="grey--text"
+                    >value</v-list-item-subtitle
+                  >
+                </v-list-item-content>
+                <v-list-item-content class="pa-1 width-2">
+                  <v-list-item-title>{{ asset.divyield }}%</v-list-item-title>
+                  <v-list-item-subtitle class="grey--text"
+                    >anual dividend(%)</v-list-item-subtitle
+                  >
+                </v-list-item-content>
+                <v-list-item-content class="pa-0">
+                  <v-btn icon small @click="deleteItem(index)">
+                    <v-icon>mdi-close</v-icon>
+                  </v-btn>
+                </v-list-item-content>
               </div>
               <v-divider></v-divider>
             </div>
@@ -81,7 +85,7 @@
         </v-list>
       </v-card>
     </v-card>
-    <v-card class="mt-3 pa-3 elevation--0" outlined>
+    <v-card class="mt-3 pa-3" outlined>
       <div class="ma-3 flex">
         <div class="width-2">total investment:</div>
         <div class="width-2">${{ sumAssets().toFixed(2) }}</div>
@@ -94,11 +98,22 @@
         <div class="width-2">monthly average:</div>
         <div class="width-2">${{ (sumDiv() / 12).toFixed(2) }}</div>
       </div>
-      <div class="ma-3 flex">
-        <div class="width-2">monthly average:</div>
-        <div class="width-2">${{ (sumDiv() / 12).toFixed(2) }}</div>
-      </div>
-
+    </v-card>
+    <v-card class="mt-3 pa-3" outlined>
+      <v-text-field
+        label="target value(monthly)"
+        type="number"
+        clearable
+        v-model="targetvalue"
+      ></v-text-field>
+      <v-text-field
+        label="yield"
+        v-model="yield1"
+        type="number"
+        suffix="%"
+        clearable
+      ></v-text-field>
+      ${{ sumAssets()-((targetvalue*12)/yield1) }} left to achieve freedom with average {{yield1}}% yield
     </v-card>
   </v-container>
 </template>
@@ -108,6 +123,9 @@ export default {
   components: {},
   data() {
     return {
+      yield1:0,
+      targetvalue: 0,
+      valueLeft: 0,
       offsetTop: 0,
       assets: [],
       dialog1: false,
@@ -124,6 +142,9 @@ export default {
   },
 
   methods: {
+    deleteItem(index) {
+      this.assets.splice(index, 1);
+    },
     addData(assetValue, divyield) {
       // console.log(assetValue,divyield);
       this.assets.push({
@@ -177,6 +198,6 @@ export default {
   width: 35%;
 }
 .width-2 {
-  width: 50%;
+  width: 60%;
 }
 </style>
