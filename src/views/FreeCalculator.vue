@@ -113,7 +113,7 @@
         suffix="%"
         clearable
       ></v-text-field>
-      ${{ sumAssets()-((targetvalue*12)/yield1) }} left to achieve freedom with average {{yield1}}% yield
+      ${{ Intl.NumberFormat().format(((targetvalue*12)/(yield1/100))- sumAssets().toFixed(2))}} left to achieve freedom with average {{yield1}}% yield
     </v-card>
   </v-container>
 </template>
