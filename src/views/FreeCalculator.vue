@@ -27,20 +27,6 @@
             >ok</v-btn
           >
         </div>
-
-        <!-- <v-col>
-          Total Investment:
-          {{ Intl.NumberFormat().format(assetValue * shares * 1000) }} <br />
-          Dividend paid:
-          {{
-            Intl.NumberFormat().format(
-              (assetValue * shares * 1000 * divyield) / 100
-            )
-          }}
-          <br />
-          You get {{ (assetValue * shares * 1000 * divyield) / 100 / 12 }} per
-          month
-        </v-col> -->
       </v-card>
     </v-dialog>
     <v-card outlined height="300px" max-height="450px" class="pa-3">
@@ -113,7 +99,13 @@
         suffix="%"
         clearable
       ></v-text-field>
-      ${{ Intl.NumberFormat().format(((targetvalue*12)/(yield1/100))- sumAssets().toFixed(2))}} left to achieve freedom with average {{yield1}}% yield
+      <div v-if="(sumDiv()/12)>=targetvalue">
+      you reached your goal
+      </div>
+      <div v-else>
+        ${{ remainValue() }} left to achieve freedom with average
+      {{ yield1 }}% yield
+      </div>
     </v-card>
   </v-container>
 </template>
@@ -123,7 +115,7 @@ export default {
   components: {},
   data() {
     return {
-      yield1:0,
+      yield1: 0,
       targetvalue: 0,
       valueLeft: 0,
       offsetTop: 0,
@@ -179,6 +171,16 @@ export default {
     },
     onScroll(e) {
       this.offsetTop = e.target.scrollTop;
+    },
+
+    remainValue() {
+      let value = 0;
+      value = Intl.NumberFormat().format(
+        (this.targetvalue * 12) / (this.yield1 / 100) -
+          this.sumAssets().toFixed(2)
+      );
+
+      return value;
     },
   },
 
