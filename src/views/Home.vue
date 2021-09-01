@@ -9,9 +9,9 @@
           hide-no-data
           hide-selected
           :items="items"
+          cache-items
           item-text="shortname"
           item-value="shortname"
-          return-object
           :loading="isLoading"
         >
         </v-autocomplete>
@@ -59,26 +59,32 @@ export default {
     },
   },
   watch: {
-    async search(val) {
-      if (this.quotes.length > 0) return;
-
-      this.isLoading = true;
-
-      const params = {
-        q: val,
-        region: "US",
-      };
-      await api
-        .getAutoComplete(params)
-        .then(res=>{
-          this.quotes = res.data.quotes 
-        })
-        .catch(function (error) {
-          console.error(error);
-        })
-        .finally(() => (this.isLoading = false));
+     search(val) {
+      val && val !== this.select && this.querySelections(val)
     },
   },
+  methods: {
+    querySelections(val) {
+      this.isLoading = true;
+      // Simulated ajax query
+      setTimeout(() => {
+        const params = {
+          q: val,
+          region: "US",
+        };
+        api
+          .getAutoComplete(params)
+          .then((res) => {
+            this.quotes = res.data.quotes;
+          })
+          .catch(function(error) {
+            console.error(error);
+          })
+          .finally(() => (this.isLoading = false));
+      }, 500);
+    },
+  },
+
   mounted() {},
 };
 </script>
