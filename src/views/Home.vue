@@ -12,47 +12,23 @@
           item-text="shortname"
           item-value="shortname"
           return-object
+          :loading="isLoading"
         >
         </v-autocomplete>
       </v-col>
     </v-row>
     <v-row>
       <v-col>
-        <v-text-field
-          label="price"
-          v-model="price"
-          type="number"
-        ></v-text-field>
+        {{ this.quotes }}
+        {{ price }}
       </v-col>
     </v-row>
     <v-row>
-      <v-col>
-        <v-text-field
-          label="shares"
-          v-model="shares"
-          type="number"
-        ></v-text-field>
-      </v-col>
-      <v-col>
-        <v-text-field
-          label="dividend yield"
-          v-model="divyield"
-          type="number"
-          suffix="%"
-        ></v-text-field>
-      </v-col>
+      <v-col> </v-col>
+      <v-col> </v-col>
     </v-row>
     <v-row>
-      <v-col>
-        Total Investment:
-        {{ Intl.NumberFormat().format(price * shares * 1000) }} <br />
-        Dividend paid:
-        {{
-          Intl.NumberFormat().format((price * shares * 1000 * divyield) / 100)
-        }}
-        <br />
-        You get {{ (price * shares * 1000 * divyield) / 100 / 12 }} per month
-      </v-col>
+      <v-col> </v-col>
     </v-row>
   </v-container>
 </template>
@@ -65,6 +41,7 @@ export default {
   components: {},
   data() {
     return {
+      isLoading: false,
       quotes: [],
       divyield: 0.0,
       shares: 0,
@@ -83,23 +60,25 @@ export default {
   },
   watch: {
     async search(val) {
+      if (this.quotes.length > 0) return;
+
+      this.isLoading = true;
+
       const params = {
         q: val,
         region: "US",
       };
       await api
         .getAutoComplete(params)
-        .then((res) => {
-          console.log(res.data);
-          this.quotes = res.data.quotes;
+        .then(res=>{
+          this.quotes = res.data.quotes 
         })
         .catch(function (error) {
           console.error(error);
-        });
+        })
+        .finally(() => (this.isLoading = false));
     },
   },
-  mounted() {
-   
-  },
+  mounted() {},
 };
 </script>

@@ -6,6 +6,11 @@ export default {
   async getAutoComplete(params) {
     return await appserver.get(`${API_URL}`, { params });
   },
+
+  async getQuotes(params){
+    return await appserver.get('/market/v2/get-quotes', { params });
+
+  }
 }
 
   
