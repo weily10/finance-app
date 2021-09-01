@@ -60,7 +60,7 @@ export default {
   },
   watch: {
      search(val) {
-      val && val !== this.select && this.querySelections(val)
+      val && val !== this.stockSearch && this.querySelections(val)
     },
   },
   methods: {
