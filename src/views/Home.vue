@@ -17,10 +17,13 @@
         </v-autocomplete>
       </v-col>
     </v-row>
+    <v-card>
+      {{this.quotes.exchange}}
+    </v-card>
     <v-row>
       <v-col>
         {{ this.quotes }}
-        {{ price }}
+      <span class="grey--"> price: </span>{{ price }}
       </v-col>
     </v-row>
     <v-row>
@@ -83,6 +86,8 @@ export default {
           .finally(() => (this.isLoading = false));
       }, 500);
     },
+
+
   },
 
   mounted() {},
