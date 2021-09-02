@@ -23,7 +23,7 @@
     <v-row>
       <v-col>
         {{ this.quotes }}
-      <span class="grey--"> price: </span>{{ price }}
+      <span > price: </span>{{ price }}
       </v-col>
     </v-row>
     <v-row>
