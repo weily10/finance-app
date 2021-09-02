@@ -17,14 +17,27 @@
         </v-autocomplete>
       </v-col>
     </v-row>
-    <v-card>
-      {{this.quotes.exchange}}
+    <v-card outlined>
+      <v-card-title>{{ stockSearch }}</v-card-title>
+      <v-card-text>
+        <div class="d-flex flex-row">
+          <div class="pr-2 label">Market Cap:</div>
+          <div class="text--primary value">
+            {{ numFormatter(quote.marketCap) }}
+          </div>
+        </div>
+        <div class="d-flex flex-row">
+          <div class="pr-2 label">Book Value:</div>
+          <div class="text--primary value">{{ format(quote.bookValue) }}</div>
+        </div>
+        <div class="d-flex flex-row">
+          <div class="pr-2 label">P/E:</div>
+          <div class="text--primary value">{{ format(quote.trailingPE) }}</div>
+        </div>
+      </v-card-text>
     </v-card>
     <v-row>
-      <v-col>
-        {{ this.quotes }}
-      <span > price: </span>{{ price }}
-      </v-col>
+      <v-col> </v-col>
     </v-row>
     <v-row>
       <v-col> </v-col>
@@ -37,7 +50,6 @@
 </template>
 
 <script>
-// import axios from "axios";
 import api from "../api";
 
 export default {
@@ -54,6 +66,12 @@ export default {
       dividendMonth: 0,
       stockSearch: null,
       search: null,
+      symbol: null,
+      quote: {
+        marketCap: 0,
+        bookValue: 0,
+        trailingPE: 0,
+      },
     };
   },
   computed: {
@@ -62,14 +80,47 @@ export default {
     },
   },
   watch: {
-     search(val) {
-      val && val !== this.stockSearch && this.querySelections(val)
+    search(val) {
+      val && val !== this.stockSearch && this.querySelections(val);
+    },
+    stockSearch(val) {
+      if (val === null || val === "") return;
+      const params = {
+        region: "US",
+        symbols: this.symbol,
+      };
+      api.getQuote(params).then((res) => {
+        Object.keys(this.quotes).map((key)=>{
+          // this.quotes[key] *= 2;
+          console.log(key);
+          console.log(this.quotes[1]);
+
+        });
+
+        this.quote = res.data.quoteResponse.result[0];
+        console.log(this.quote);
+      });
     },
   },
   methods: {
+    format(value) {
+      return value ? value.toFixed(2) : 0;
+    },
+    numFormatter(num) {
+      if (num) {
+        if (num > 999 && num < 1000000) {
+          return (num / 1000).toFixed(1) + "K"; // convert to K for number from > 1000 < 1 million
+        } else if (num > 1000000) {
+          return (num / 1000000).toFixed(1) + "M"; // convert to M for number from > 1 million
+        } else if (num < 900) {
+          return num; // if value < 1000, nothing to do
+        }
+      } else {
+        return "-";
+      }
+    },
     querySelections(val) {
       this.isLoading = true;
-      // Simulated ajax query
       setTimeout(() => {
         const params = {
           q: val,
@@ -79,17 +130,26 @@ export default {
           .getAutoComplete(params)
           .then((res) => {
             this.quotes = res.data.quotes;
+            this.symbol = res.data.quotes[0].symbol;
           })
-          .catch(function(error) {
+          .catch(function (error) {
             console.error(error);
           })
           .finally(() => (this.isLoading = false));
       }, 500);
     },
-
-
   },
 
   mounted() {},
 };
 </script>
+
+<style scoped>
+.label {
+  width: 10%;
+}
+
+.value {
+  width: 10%;
+}
+</style>

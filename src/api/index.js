@@ -7,7 +7,7 @@ export default {
     return await appserver.get(`${API_URL}`, { params });
   },
 
-  async getQuotes(params){
+  async getQuote(params){
     return await appserver.get('/market/v2/get-quotes', { params });
 
   }
