@@ -11,7 +11,7 @@
           :items="items"
           cache-items
           item-text="shortname"
-          item-value="shortname"
+          item-value="symbol"
           :loading="isLoading"
         >
         </v-autocomplete>
@@ -21,18 +21,18 @@
       <v-card-title>{{ stockSearch }}</v-card-title>
       <v-card-text>
         <div class="d-flex flex-row">
-          <div class="pr-2 label">Market Cap:</div>
-          <div class="text--primary value">
+          <div class="pr-2  label">Market Cap:</div>
+          <div class="text--primary ">
             {{ numFormatter(quote.marketCap) }}
           </div>
         </div>
         <div class="d-flex flex-row">
-          <div class="pr-2 label">Book Value:</div>
-          <div class="text--primary value">{{ format(quote.bookValue) }}</div>
+          <div class="pr-2  label">Book Value:</div>
+          <div class="text--primary ">{{ format(quote.bookValue) }}</div>
         </div>
         <div class="d-flex flex-row">
-          <div class="pr-2 label">P/E:</div>
-          <div class="text--primary value">{{ format(quote.trailingPE) }}</div>
+          <div class="pr-2  label">P/E:</div>
+          <div class="text--primary ">{{ format(quote.trailingPE) }}</div>
         </div>
       </v-card-text>
     </v-card>
@@ -68,9 +68,9 @@ export default {
       search: null,
       symbol: null,
       quote: {
-        marketCap: 0,
-        bookValue: 0,
-        trailingPE: 0,
+        // marketCap: 0,
+        // bookValue: 0,
+        // trailingPE: 0,
       },
     };
   },
@@ -84,21 +84,25 @@ export default {
       val && val !== this.stockSearch && this.querySelections(val);
     },
     stockSearch(val) {
+      console.log('valor',val);
       if (val === null || val === "") return;
       const params = {
         region: "US",
-        symbols: this.symbol,
+        symbols: val,
       };
       api.getQuote(params).then((res) => {
-        Object.keys(this.quotes).map((key)=>{
+        console.log(res);
+        Object.keys(this.quote).map((key) => {
           // this.quotes[key] *= 2;
-          console.log(key);
-          console.log(this.quotes[1]);
-
+          let resQuote = res.data.quoteResponse.result[0];
+          Object.keys(resQuote).map((key1) => {
+              console.log(key,key1);
+            if (key === key1) {
+              console.log(this.quote[key],key);
+              this.quote[key] = resQuote[key1];
+            }
+          });
         });
-
-        this.quote = res.data.quoteResponse.result[0];
-        console.log(this.quote);
       });
     },
   },
@@ -130,9 +134,8 @@ export default {
           .getAutoComplete(params)
           .then((res) => {
             this.quotes = res.data.quotes;
-            this.symbol = res.data.quotes[0].symbol;
           })
-          .catch(function (error) {
+          .catch(function(error) {
             console.error(error);
           })
           .finally(() => (this.isLoading = false));
@@ -146,10 +149,10 @@ export default {
 
 <style scoped>
 .label {
-  width: 10%;
+  width: 100px;
 }
 
 .value {
-  width: 10%;
+  width: 15%;
 }
 </style>
