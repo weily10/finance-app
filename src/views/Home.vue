@@ -68,9 +68,9 @@ export default {
       search: null,
       symbol: null,
       quote: {
-        // marketCap: 0,
-        // bookValue: 0,
-        // trailingPE: 0,
+        marketCap: 0,
+        bookValue: 0,
+        trailingPE: 0,
       },
     };
   },
@@ -91,18 +91,20 @@ export default {
         symbols: val,
       };
       api.getQuote(params).then((res) => {
-        console.log(res);
-        Object.keys(this.quote).map((key) => {
-          // this.quotes[key] *= 2;
-          let resQuote = res.data.quoteResponse.result[0];
-          Object.keys(resQuote).map((key1) => {
-              console.log(key,key1);
-            if (key === key1) {
-              console.log(this.quote[key],key);
-              this.quote[key] = resQuote[key1];
-            }
-          });
-        });
+        let resQuote = res.data.quoteResponse
+        this.quote = resQuote
+        // console.log(res);
+        // Object.keys(this.quote).map((key) => {
+        //   // this.quotes[key] *= 2;
+        //   let resQuote = res.data.quoteResponse;
+        //   Object.keys(resQuote).map((key1) => {
+        //       console.log(key,key1);
+        //     if (key === key1) {
+        //       console.log(this.quote[key],key);
+        //       this.quote[key] = resQuote[key1];
+        //     }
+        //   });
+        // });
       });
     },
   },
