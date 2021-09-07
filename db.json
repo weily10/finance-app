@@ -12,31 +12,37 @@
     },
     {
       "id": 3,
-      "q": "Nvidia",
+      "q": "Cleanaway Co Ltd",
       "region": "USA"
     }
   ],
   "get-quotes": [
     {
       "id": 1,
+      "lastPrice":171,
       "symbols": "TSMC",
       "marketCap": 2144213,
       "bookValue": 193,
-      "trailingPE": 24
+      "trailingPE": 32.4,
+      "dividendYield":331
     },
     {
       "id": 2,
-      "symbols": "Nvidia",
+      "lastPrice":171,
+      "symbols": "Cleanaway Co Ltd",
       "marketCap": 473732,
       "bookValue": 992,
-      "trailingPE": 12
+      "trailingPE": 14.47,
+      "dividendYield":585
     },
     {
       "id": 3,
+      "lastPrice":171,
       "symbols": "Vale",
       "marketCap": 443534,
       "bookValue": 343,
-      "trailingPE": 34
+      "trailingPE": 3.4,
+      "dividendYield":585
     }
   ]
 }

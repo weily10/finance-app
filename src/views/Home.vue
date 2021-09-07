@@ -18,23 +18,28 @@
       </v-col>
     </v-row>
     <v-card outlined>
-      <v-card-title>{{ stockSearch }}</v-card-title>
-      <v-card-text>
-        <div class="d-flex flex-row">
-          <div class="pr-2  label">Market Cap:</div>
-          <div class="text--primary ">
-            {{ numFormatter(quote.marketCap) }}
+
+        <v-card-title>{{ format(quote.lastPrice) }}<v-spacer></v-spacer> <div class="text-overline pl-4 pt-1">{{ stockSearch }}</div></v-card-title>
+        <v-card-text>
+          <div class="d-flex flex-row">
+            <div class="label">Market Cap:</div>
+            <div class="text--primary ">
+              {{ numFormatter(quote.marketCap) }}
+            </div>
           </div>
-        </div>
-        <div class="d-flex flex-row">
-          <div class="pr-2  label">Book Value:</div>
-          <div class="text--primary ">{{ format(quote.bookValue) }}</div>
-        </div>
-        <div class="d-flex flex-row">
-          <div class="pr-2  label">P/E:</div>
-          <div class="text--primary ">{{ format(quote.trailingPE) }}</div>
-        </div>
-      </v-card-text>
+          <div class="d-flex flex-row">
+            <div class="label">Book Value:</div>
+            <div class="text--primary ">{{ format(quote.bookValue) }}</div>
+          </div>
+          <div class="d-flex flex-row">
+            <div class="label">P/E:</div>
+            <div class="text--primary ">{{ quote.trailingPE }}</div>
+          </div>
+          <div class="d-flex flex-row">
+            <div class="label">Div. yield:</div>
+            <div class="text--primary ">{{ quote.dividendYield / 100 }}%</div>
+          </div>
+        </v-card-text>
     </v-card>
     <v-row>
       <v-col> </v-col>
@@ -68,16 +73,18 @@ export default {
       search: null,
       symbol: null,
       quote: {
+        lastPrice: 0,
         marketCap: 0,
         bookValue: 0,
         trailingPE: 0,
+        dividendYield: 0,
       },
     };
   },
   computed: {
     items() {
-      return this.quotes.map(key=>{
-        return key.q
+      return this.quotes.map((key) => {
+        return key.q;
       });
     },
   },
@@ -91,20 +98,8 @@ export default {
         symbols: val,
       };
       api.getQuote(params).then((res) => {
-        let resQuote = res.data[0]
-        this.quote = resQuote
-        // console.log(res);
-        // Object.keys(this.quote).map((key) => {
-        //   // this.quotes[key] *= 2;
-        //   let resQuote = res.data.quoteResponse;
-        //   Object.keys(resQuote).map((key1) => {
-        //       console.log(key,key1);
-        //     if (key === key1) {
-        //       console.log(this.quote[key],key);
-        //       this.quote[key] = resQuote[key1];
-        //     }
-        //   });
-        // });
+        let resQuote = res.data[0];
+        this.quote = resQuote;
       });
     },
   },
@@ -126,7 +121,6 @@ export default {
       }
     },
     querySelections(val) {
-     
       this.isLoading = true;
       setTimeout(() => {
         const params = {
