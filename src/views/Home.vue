@@ -76,7 +76,9 @@ export default {
   },
   computed: {
     items() {
-      return this.quotes;
+      return this.quotes.map(key=>{
+        return key.q
+      });
     },
   },
   watch: {
@@ -84,14 +86,12 @@ export default {
       val && val !== this.stockSearch && this.querySelections(val);
     },
     stockSearch(val) {
-      console.log('valor',val);
       if (val === null || val === "") return;
       const params = {
-        region: "US",
         symbols: val,
       };
       api.getQuote(params).then((res) => {
-        let resQuote = res.data.quoteResponse
+        let resQuote = res.data[0]
         this.quote = resQuote
         // console.log(res);
         // Object.keys(this.quote).map((key) => {
@@ -126,16 +126,17 @@ export default {
       }
     },
     querySelections(val) {
+     
       this.isLoading = true;
       setTimeout(() => {
         const params = {
           q: val,
-          region: "US",
+          region: "USA",
         };
         api
           .getAutoComplete(params)
           .then((res) => {
-            this.quotes = res.data.quotes;
+            this.quotes = res.data;
           })
           .catch(function(error) {
             console.error(error);

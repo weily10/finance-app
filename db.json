@@ -1,0 +1,42 @@
+{
+  "auto_complete": [
+    {
+      "id": 1,
+      "q": "TSMC",
+      "region": "USA"
+    },
+    {
+      "id": 2,
+      "q": "Vale",
+      "region": "USA"
+    },
+    {
+      "id": 3,
+      "q": "Nvidia",
+      "region": "USA"
+    }
+  ],
+  "get-quotes": [
+    {
+      "id": 1,
+      "symbols": "TSMC",
+      "marketCap": 2144213,
+      "bookValue": 193,
+      "trailingPE": 24
+    },
+    {
+      "id": 2,
+      "symbols": "Nvidia",
+      "marketCap": 473732,
+      "bookValue": 992,
+      "trailingPE": 12
+    },
+    {
+      "id": 3,
+      "symbols": "Vale",
+      "marketCap": 443534,
+      "bookValue": 343,
+      "trailingPE": 34
+    }
+  ]
+}

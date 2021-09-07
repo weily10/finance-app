@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const appserve = axios.create({
-  baseURL: "https://apidojo-yahoo-finance-v1.p.rapidapi.com"
+  baseURL: "http://localhost:3000"
 });
 
 export default appserve;
