@@ -4,11 +4,14 @@
 ```
 npm install
 
-#### install json-server
+```
+### Backend setup
+```
+
 npm install -g json-server
 
-#### run json-server
 json-server --watch db.json
+
 ```
 
 ### Compiles and hot-reloads for development
