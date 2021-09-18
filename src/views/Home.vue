@@ -1,5 +1,5 @@
 <template>
-  <v-container>
+  <v-responsive max-width="960">
     <v-row align="center" class="justify-end">
       <v-col>
         <v-autocomplete
@@ -19,7 +19,8 @@
     </v-row>
     <v-card outlined>
 
-        <v-card-title>{{ format(quote.lastPrice) }}<v-spacer></v-spacer> <div class="text-overline pl-4 pt-1">{{ stockSearch }}</div></v-card-title>
+        <v-card-title>{{ format(quote.lastPrice) }}<v-spacer></v-spacer> </v-card-title>
+        <v-card-subtitle>{{ stockSearch }}</v-card-subtitle>
         <v-card-text>
           <div class="d-flex flex-row">
             <div class="label">Market Cap:</div>
@@ -30,6 +31,7 @@
           <div class="d-flex flex-row">
             <div class="label">Book Value:</div>
             <div class="text--primary ">{{ format(quote.bookValue) }}</div>
+
           </div>
           <div class="d-flex flex-row">
             <div class="label">P/E:</div>
@@ -51,7 +53,7 @@
     <v-row>
       <v-col> </v-col>
     </v-row>
-  </v-container>
+  </v-responsive>
 </template>
 
 <script>

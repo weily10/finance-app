@@ -32,8 +32,10 @@
         </v-list-item-group>
       </v-list>
     </v-navigation-drawer>
-    <v-main>
+    <v-main >
+      <v-container class="d-flex justify-center" fluid >
       <router-view />
+      </v-container>
     </v-main>
   </v-app>
 </template>
