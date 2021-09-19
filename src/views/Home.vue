@@ -1,5 +1,5 @@
 <template>
-  <v-responsive max-width="960">
+  <div>
     <v-row align="center" class="justify-end">
       <v-col>
         <v-autocomplete
@@ -18,30 +18,48 @@
       </v-col>
     </v-row>
     <v-card outlined>
-
-        <v-card-title>{{ format(quote.lastPrice) }}<v-spacer></v-spacer> </v-card-title>
-        <v-card-subtitle>{{ stockSearch }}</v-card-subtitle>
-        <v-card-text>
+      <v-card-title
+        >{{ format(quote.lastPrice) }}<v-spacer></v-spacer>
+      </v-card-title>
+      <v-card-subtitle>{{ stockSearch }}</v-card-subtitle>
+      <v-card-text>
           <div class="d-flex flex-row">
-            <div class="label">Market Cap:</div>
-            <div class="text--primary ">
+            <div class="label">Market Cap</div>
+            <v-spacer></v-spacer>
+            <div class="text--primary  mr-2" style="width:45px">
+              {{ numFormatter(quote.marketCap) }}
+            </div>
+            <div class="label">Market Cap</div>
+            <v-spacer></v-spacer>
+            <div class="text--primary">
               {{ numFormatter(quote.marketCap) }}
             </div>
           </div>
           <div class="d-flex flex-row">
-            <div class="label">Book Value:</div>
+            <div class="label">Book Value</div>
+            <v-spacer></v-spacer>
+            <div class="text--primary mr-2 " style="width:45px">{{ format(quote.bookValue) }}</div>
+            <div class="label">Book Value</div>
+            <v-spacer></v-spacer>
             <div class="text--primary ">{{ format(quote.bookValue) }}</div>
-
           </div>
           <div class="d-flex flex-row">
-            <div class="label">P/E:</div>
-            <div class="text--primary ">{{ quote.trailingPE }}</div>
+            <div class="label">P/E</div>
+            <v-spacer></v-spacer>
+            <div class="text--primary mr-2" style="width:45px">{{ quote.trailingPE }}</div>
+            <div class="label">Book Value</div>
+            <v-spacer></v-spacer>
+            <div class="text--primary ">{{ format(quote.bookValue) }}</div>
           </div>
           <div class="d-flex flex-row">
-            <div class="label">Div. yield:</div>
-            <div class="text--primary ">{{ quote.dividendYield / 100 }}%</div>
+            <div class="label">Div. yield</div>
+            <v-spacer></v-spacer>
+            <div class="text--primary mr-2" style="width:45px">{{ quote.dividendYield / 100 }}%</div>
+            <div class="label">Book Value</div>
+            <v-spacer></v-spacer>
+            <div class="text--primary ">{{ format(quote.bookValue) }}</div>
           </div>
-        </v-card-text>
+      </v-card-text>
     </v-card>
     <v-row>
       <v-col> </v-col>
@@ -53,7 +71,7 @@
     <v-row>
       <v-col> </v-col>
     </v-row>
-  </v-responsive>
+  </div>
 </template>
 
 <script>
