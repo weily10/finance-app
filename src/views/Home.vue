@@ -1,6 +1,6 @@
 <template>
   <div>
-    <v-row align="center" class="justify-end">
+    <v-row align="center" class="d-flex flex-column flex-sm-row">
       <v-col>
         <v-autocomplete
           label="search stocks"
@@ -9,12 +9,15 @@
           hide-no-data
           hide-selected
           :items="items"
-          cache-items
           item-text="shortname"
           item-value="symbol"
           :loading="isLoading"
         >
         </v-autocomplete>
+      </v-col>
+      <v-col>
+        <v-select label="select region" :items="regions" v-model="regionSelect" :search-input.sync="search">
+        </v-select>
       </v-col>
     </v-row>
     <v-card outlined>
@@ -23,42 +26,60 @@
       </v-card-title>
       <v-card-subtitle>{{ stockSearch }}</v-card-subtitle>
       <v-card-text>
-          <div class="d-flex flex-row">
-            <div class="label">Market Cap</div>
-            <v-spacer></v-spacer>
-            <div class="text--primary  mr-2" style="width:45px">
-              {{ numFormatter(quote.marketCap) }}
+        <div class="d-sm-flex justify-space-between">
+          <div style="width:100%" class="mr-2">
+            <div class="d-flex flex-row">
+              <div class="label">Market Cap</div>
+              <v-spacer></v-spacer>
+              <div class="text--primary" align="right">
+                {{ numFormatter(quote.marketCap) }}
+              </div>
             </div>
-            <div class="label">Market Cap</div>
-            <v-spacer></v-spacer>
-            <div class="text--primary">
-              {{ numFormatter(quote.marketCap) }}
+            <div class="d-flex flex-row">
+              <div class="label">Book Value</div>
+              <v-spacer></v-spacer>
+              <div class="text--primary" style="width:45px" align="right">
+                {{ format(quote.bookValue) }}
+              </div>
+            </div>
+            <div class="d-flex flex-row">
+              <div class="label">P/E</div>
+              <v-spacer></v-spacer>
+              <div class="text--primary" style="width:45px" align="right">
+                {{ quote.trailingPE }}
+              </div>
+            </div>
+            <div class="d-flex flex-row">
+              <div class="label">Div. yield</div>
+              <v-spacer></v-spacer>
+              <div class="text--primary" style="width:45px" align="right">
+                {{ quote.dividendYield / 100 }}%
+              </div>
             </div>
           </div>
-          <div class="d-flex flex-row">
-            <div class="label">Book Value</div>
-            <v-spacer></v-spacer>
-            <div class="text--primary mr-2 " style="width:45px">{{ format(quote.bookValue) }}</div>
-            <div class="label">Book Value</div>
-            <v-spacer></v-spacer>
-            <div class="text--primary ">{{ format(quote.bookValue) }}</div>
+          <div style="width:100%">
+            <div class="d-flex flex-row">
+              <div class="label">Beta</div>
+              <v-spacer></v-spacer>
+              <div class="text--primary ">{{ format(quote.beta) }}</div>
+            </div>
+            <div class="d-flex flex-row">
+              <div class="label">EPS</div>
+              <v-spacer></v-spacer>
+              <div class="text--primary ">{{ format(quote.eps) }}</div>
+            </div>
+            <div class="d-flex flex-row">
+              <div class="label">Price/Sales</div>
+              <v-spacer></v-spacer>
+              <div class="text--primary ">{{ quote.priceSales}}</div>
+            </div>
+            <div class="d-flex flex-row">
+              <div class="label">Shares</div>
+              <v-spacer></v-spacer>
+              <div class="text--primary ">{{ numFormatter(quote.shares)}}</div>
+            </div>
           </div>
-          <div class="d-flex flex-row">
-            <div class="label">P/E</div>
-            <v-spacer></v-spacer>
-            <div class="text--primary mr-2" style="width:45px">{{ quote.trailingPE }}</div>
-            <div class="label">Book Value</div>
-            <v-spacer></v-spacer>
-            <div class="text--primary ">{{ format(quote.bookValue) }}</div>
-          </div>
-          <div class="d-flex flex-row">
-            <div class="label">Div. yield</div>
-            <v-spacer></v-spacer>
-            <div class="text--primary mr-2" style="width:45px">{{ quote.dividendYield / 100 }}%</div>
-            <div class="label">Book Value</div>
-            <v-spacer></v-spacer>
-            <div class="text--primary ">{{ format(quote.bookValue) }}</div>
-          </div>
+        </div>
       </v-card-text>
     </v-card>
     <v-row>
@@ -81,6 +102,8 @@ export default {
   components: {},
   data() {
     return {
+      regionSelect: "Taiwan",
+      regions: ["Taiwan", "USA","Brazil"],
       isLoading: false,
       quotes: [],
       divyield: 0.0,
@@ -98,6 +121,10 @@ export default {
         bookValue: 0,
         trailingPE: 0,
         dividendYield: 0,
+        eps: 0,
+        shares: 0,
+        priceSales:0,
+        beta: 0,
       },
     };
   },
@@ -131,8 +158,10 @@ export default {
       if (num) {
         if (num > 999 && num < 1000000) {
           return (num / 1000).toFixed(1) + "K"; // convert to K for number from > 1000 < 1 million
-        } else if (num > 1000000) {
+        } else if (num > 1000000 && num < 100000000) {
           return (num / 1000000).toFixed(1) + "M"; // convert to M for number from > 1 million
+        } else if (num > 1000000000) {
+          return (num / 1000000000).toFixed(3) + "B";
         } else if (num < 900) {
           return num; // if value < 1000, nothing to do
         }
@@ -145,7 +174,7 @@ export default {
       setTimeout(() => {
         const params = {
           q: val,
-          region: "USA",
+          region: this.regionSelect,
         };
         api
           .getAutoComplete(params)

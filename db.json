@@ -3,17 +3,22 @@
     {
       "id": 1,
       "q": "TSMC",
-      "region": "USA"
+      "region": "Taiwan"
     },
     {
       "id": 2,
       "q": "Vale",
-      "region": "USA"
+      "region": "Brazil"
     },
     {
       "id": 3,
       "q": "Cleanaway Co Ltd",
-      "region": "USA"
+      "region": "Taiwan"
+    },
+    {
+      "id": 4,
+      "q": "Asus",
+      "region": "Taiwan"
     }
   ],
   "get-quotes": [
@@ -24,7 +29,11 @@
       "marketCap": 2144213,
       "bookValue": 193,
       "trailingPE": 32.4,
-      "dividendYield":331
+      "dividendYield":331,
+      "eps":55.18,
+      "shares":7376000000,
+      "priceSales":0.49,
+      "beta":0.44
     },
     {
       "id": 2,
@@ -33,7 +42,11 @@
       "marketCap": 473732,
       "bookValue": 992,
       "trailingPE": 14.47,
-      "dividendYield":585
+      "dividendYield":585,
+      "eps":55.18,
+      "shares":742760000000,
+      "priceSales":0.49,
+      "beta":0.44
     },
     {
       "id": 3,
@@ -42,7 +55,25 @@
       "marketCap": 443534,
       "bookValue": 343,
       "trailingPE": 3.4,
-      "dividendYield":585
+      "dividendYield":585,
+      "eps":55.18,
+      "shares":742760000000,
+      "priceSales":0.49,
+      "beta":0.44
+    },
+    {
+      "id": 4,
+      "lastPrice":315,
+      "symbols": "Asus",
+      "marketCap": 24214000000,
+      "bookValue": 273,
+      "trailingPE": 3.4,
+      "dividendYield":798,
+      "eps":55.18,
+      "shares":742760000000,
+      "priceSales":0.49,
+      "beta":0.44
+
     }
   ]
 }
