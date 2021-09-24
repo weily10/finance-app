@@ -1,8 +1,11 @@
 <template>
   <v-container>
-    <v-dialog v-model="dialog1" width="100%">
+    <v-dialog v-model="dialog1" width="420">
       <v-card>
-        <div class="pa-3">
+        <v-card-title>
+          Add your asset and dividend
+        </v-card-title>
+        <v-card-text>
           <v-text-field
             label="asset value"
             v-model="assetValue"
@@ -26,7 +29,7 @@
             @click="addData(assetValue, divyield)"
             >ok</v-btn
           >
-        </div>
+        </v-card-text>
       </v-card>
     </v-dialog>
     <v-card outlined height="300px" max-height="450px" class="pa-3">
@@ -59,11 +62,11 @@
                     >anual dividend(%)</v-list-item-subtitle
                   >
                 </v-list-item-content>
-                <v-list-item-content class="pa-0">
-                  <v-btn icon small @click="deleteItem(index)">
+                <v-list-item-action>
+                  <v-btn icon small @click="deleteItem(asset)">
                     <v-icon>mdi-close</v-icon>
                   </v-btn>
-                </v-list-item-content>
+                </v-list-item-action>
               </div>
               <v-divider></v-divider>
             </div>
@@ -74,15 +77,17 @@
     <v-card class="mt-3 pa-3" outlined>
       <div class="ma-3 flex">
         <div class="width-2">total investment:</div>
-        <div class="width-2">${{ sumAssets().toFixed(2) }}</div>
+        <div class="width-2" align="right">${{ sumAssets().toFixed(2) }}</div>
       </div>
       <div class="ma-3 flex">
         <div class="width-2">total dividends:</div>
-        <div class="width-2">${{ sumDiv().toFixed(2) }}</div>
+        <div class="width-2" align="right">${{ sumDiv().toFixed(2) }}</div>
       </div>
       <div class="ma-3 flex">
         <div class="width-2">monthly average:</div>
-        <div class="width-2">${{ (sumDiv() / 12).toFixed(2) }}</div>
+        <div class="width-2" align="right">
+          ${{ (sumDiv() / 12).toFixed(2) }}
+        </div>
       </div>
     </v-card>
     <v-card class="mt-3 pa-3" outlined>
@@ -99,18 +104,19 @@
         suffix="%"
         clearable
       ></v-text-field>
-      <div v-if="(sumDiv()/12)>=targetvalue">
-      you reached your goal
+      <div v-if="sumDiv() / 12 >= targetvalue">
+        you reached your goal
       </div>
       <div v-else>
-        ${{ remainValue() }} left to achieve freedom with average
-      {{ yield1 }}% yield
+        ${{ remainValue() }} left to achieve freedom with average {{ yield1 }}%
+        yield
       </div>
     </v-card>
   </v-container>
 </template>
 
 <script>
+import api from "../api";
 export default {
   components: {},
   data() {
@@ -134,17 +140,43 @@ export default {
   },
 
   methods: {
-    deleteItem(index) {
-      this.assets.splice(index, 1);
+    async deleteItem(item) {
+      await api
+        .removeAsset(item.id)
+        .then((res) => {
+          this.assets.splice(this.assets.indexOf(item),1);
+          console.log(res);
+        })
+        .catch(function(error) {
+          console.error(error);
+        });
     },
-    addData(assetValue, divyield) {
-      // console.log(assetValue,divyield);
-      this.assets.push({
+    async addData(assetValue, divyield) {
+      const params = {
         assetValue: assetValue,
         divyield: divyield,
-      });
+      };
+      await api
+        .addAsset(params)
+        .then((res) => {
+          this.assets.push({
+            assetValue: assetValue,
+            divyield: divyield,
+          });
+          this.getAssets()
+          this.dialog1 = false;
+          console.log("success", res);
+        })
+        .catch(function(error) {
+          console.error(error);
+        });
+    },
 
-      this.dialog1 = false;
+    async getAssets() {
+      await api.getAssets().then((res) => {
+        console.log(res);
+        this.assets = res.data;
+      });
     },
 
     sumDiv() {
@@ -186,7 +218,9 @@ export default {
 
   computed: {},
 
-  mounted() {},
+  mounted() {
+    this.getAssets();
+  },
 };
 </script>
 <style scoped>

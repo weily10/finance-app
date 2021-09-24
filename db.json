@@ -21,59 +21,70 @@
       "region": "Taiwan"
     }
   ],
+  "assets": [
+    {
+      "assetValue": "54",
+      "divyield": "4",
+      "id": 1
+    },
+    {
+      "assetValue": "7",
+      "divyield": "5",
+      "id": 2
+    }
+  ],
   "get-quotes": [
     {
       "id": 1,
-      "lastPrice":171,
+      "lastPrice": 171,
       "symbols": "TSMC",
       "marketCap": 2144213,
       "bookValue": 193,
       "trailingPE": 32.4,
-      "dividendYield":331,
-      "eps":55.18,
-      "shares":7376000000,
-      "priceSales":0.49,
-      "beta":0.44
+      "dividendYield": 331,
+      "eps": 55.18,
+      "shares": 7376000000,
+      "priceSales": 0.49,
+      "beta": 0.44
     },
     {
       "id": 2,
-      "lastPrice":171,
+      "lastPrice": 171,
       "symbols": "Cleanaway Co Ltd",
       "marketCap": 473732,
       "bookValue": 992,
       "trailingPE": 14.47,
-      "dividendYield":585,
-      "eps":55.18,
-      "shares":742760000000,
-      "priceSales":0.49,
-      "beta":0.44
+      "dividendYield": 585,
+      "eps": 55.18,
+      "shares": 742760000000,
+      "priceSales": 0.49,
+      "beta": 0.44
     },
     {
       "id": 3,
-      "lastPrice":171,
+      "lastPrice": 171,
       "symbols": "Vale",
       "marketCap": 443534,
       "bookValue": 343,
       "trailingPE": 3.4,
-      "dividendYield":585,
-      "eps":55.18,
-      "shares":742760000000,
-      "priceSales":0.49,
-      "beta":0.44
+      "dividendYield": 585,
+      "eps": 55.18,
+      "shares": 742760000000,
+      "priceSales": 0.49,
+      "beta": 0.44
     },
     {
       "id": 4,
-      "lastPrice":315,
+      "lastPrice": 315,
       "symbols": "Asus",
       "marketCap": 24214000000,
       "bookValue": 273,
       "trailingPE": 3.4,
-      "dividendYield":798,
-      "eps":55.18,
-      "shares":742760000000,
-      "priceSales":0.49,
-      "beta":0.44
-
+      "dividendYield": 798,
+      "eps": 55.18,
+      "shares": 742760000000,
+      "priceSales": 0.49,
+      "beta": 0.44
     }
   ]
 }
