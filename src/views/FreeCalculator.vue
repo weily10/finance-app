@@ -41,14 +41,14 @@
         </v-btn>
       </div>
       <v-card width="100%" height="230px" elevation="0" class="mx-auto scroll">
-        <v-list three-line>
-          <div v-show="assets.length < 0">
+        <v-list>
+          <div v-if="assets.length <= 0">
             <div align="center">no data</div>
           </div>
           <template v-for="(asset, index) in assets">
             <div :key="asset + index">
-              <div class="flex pt-1 pl-1">
-                <v-list-item-content class="pa-0">
+              <v-list-item>
+                <v-list-item-content>
                   <v-list-item-title>
                     $ {{ Intl.NumberFormat().format(asset.assetValue) }}
                   </v-list-item-title>
@@ -56,7 +56,7 @@
                     >value</v-list-item-subtitle
                   >
                 </v-list-item-content>
-                <v-list-item-content class="pa-1 width-2">
+                <v-list-item-content class="width-2">
                   <v-list-item-title>{{ asset.divyield }}%</v-list-item-title>
                   <v-list-item-subtitle class="grey--text"
                     >anual dividend(%)</v-list-item-subtitle
@@ -67,7 +67,7 @@
                     <v-icon>mdi-close</v-icon>
                   </v-btn>
                 </v-list-item-action>
-              </div>
+              </v-list-item>
               <v-divider></v-divider>
             </div>
           </template>
@@ -90,7 +90,7 @@
         </div>
       </div>
     </v-card>
-    <v-card class="mt-3 pa-3" outlined>
+    <v-card class="mt-3 pa-6" outlined>
       <v-text-field
         label="target value(monthly)"
         type="number"
@@ -105,7 +105,7 @@
         clearable
       ></v-text-field>
       <div v-if="sumDiv() / 12 >= targetvalue">
-        you reached your goal
+        you've reached your goal
       </div>
       <div v-else>
         ${{ remainValue() }} left to achieve freedom with average {{ yield1 }}%
@@ -144,7 +144,7 @@ export default {
       await api
         .removeAsset(item.id)
         .then((res) => {
-          this.assets.splice(this.assets.indexOf(item),1);
+          this.assets.splice(this.assets.indexOf(item), 1);
           console.log(res);
         })
         .catch(function(error) {
@@ -163,7 +163,7 @@ export default {
             assetValue: assetValue,
             divyield: divyield,
           });
-          this.getAssets()
+          this.getAssets();
           this.dialog1 = false;
           console.log("success", res);
         })

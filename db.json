@@ -21,18 +21,7 @@
       "region": "Taiwan"
     }
   ],
-  "assets": [
-    {
-      "assetValue": "54",
-      "divyield": "4",
-      "id": 1
-    },
-    {
-      "assetValue": "7",
-      "divyield": "5",
-      "id": 2
-    }
-  ],
+  "assets": [],
   "get-quotes": [
     {
       "id": 1,
