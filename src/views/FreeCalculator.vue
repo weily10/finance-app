@@ -32,14 +32,16 @@
         </v-card-text>
       </v-card>
     </v-dialog>
-    <v-card outlined height="300px" max-height="450px" class="pa-3">
-      <div class="pa-1 flex">
-        <h3>Assets</h3>
-        <v-spacer></v-spacer>
-        <v-btn color="blue" rounded depressed dark @click="dialog1 = true">
-          <v-icon>mdi-plus</v-icon><v-spacer></v-spacer> add
-        </v-btn>
-      </div>
+    <v-card outlined height="320px" max-height="450px">
+      <v-card-title
+        >Assets <v-spacer></v-spacer>
+        <v-card-actions>
+          <v-btn color="blue" rounded depressed dark @click="dialog1 = true">
+            <v-icon>mdi-plus</v-icon><v-spacer></v-spacer> add
+          </v-btn>
+        </v-card-actions></v-card-title
+      >
+
       <v-card width="100%" height="230px" elevation="0" class="mx-auto scroll">
         <v-list>
           <div v-if="assets.length <= 0">
@@ -77,16 +79,20 @@
     <v-card class="mt-3 pa-3" outlined>
       <div class="ma-3 flex">
         <div class="width-2">total investment:</div>
-        <div class="width-2" align="right">${{ Intl.NumberFormat().format(sumAssets()) }}</div>
+        <div class="width-2" align="right">
+          ${{ Intl.NumberFormat().format(sumAssets()) }}
+        </div>
       </div>
       <div class="ma-3 flex">
         <div class="width-2">total dividends:</div>
-        <div class="width-2" align="right">${{  Intl.NumberFormat().format(sumDiv()) }}</div>
+        <div class="width-2" align="right">
+          ${{ Intl.NumberFormat().format(sumDiv()) }}
+        </div>
       </div>
       <div class="ma-3 flex">
         <div class="width-2">monthly average:</div>
         <div class="width-2" align="right">
-          ${{  Intl.NumberFormat().format(sumDiv() / 12) }}
+          ${{ Intl.NumberFormat().format(sumDiv() / 12) }}
         </div>
       </div>
     </v-card>
@@ -104,13 +110,15 @@
         suffix="%"
         clearable
       ></v-text-field>
-      <div v-if="sumDiv() / 12 >= targetvalue">
+      <v-card-text v-if="sumDiv() / 12 >= targetvalue">
         you've reached your goal
-      </div>
-      <div v-else>
-        ${{ remainValue() }} left to achieve freedom with average {{ yield1 }}%
-        yield
-      </div>
+      </v-card-text>
+      <v-card-text v-else>
+        <p>
+          ${{ remainValue() }} left to achieve freedom <br class="brnodisplay" />
+          with average {{ yield1 }}% yield
+        </p>
+      </v-card-text>
     </v-card>
   </v-container>
 </template>
@@ -235,5 +243,19 @@ export default {
 }
 .width-2 {
   width: 60%;
+}
+
+.text {
+  display: block;
+  float: right;
+  clear: both;
+  text-align: right;
+  padding-right: 10%;
+}
+
+@media only screen and (min-width: 768px) {
+  .brnodisplay {
+    display: none;
+  }
 }
 </style>
