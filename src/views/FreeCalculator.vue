@@ -77,16 +77,16 @@
     <v-card class="mt-3 pa-3" outlined>
       <div class="ma-3 flex">
         <div class="width-2">total investment:</div>
-        <div class="width-2" align="right">${{ sumAssets().toFixed(2) }}</div>
+        <div class="width-2" align="right">${{ Intl.NumberFormat().format(sumAssets()) }}</div>
       </div>
       <div class="ma-3 flex">
         <div class="width-2">total dividends:</div>
-        <div class="width-2" align="right">${{ sumDiv().toFixed(2) }}</div>
+        <div class="width-2" align="right">${{  Intl.NumberFormat().format(sumDiv()) }}</div>
       </div>
       <div class="ma-3 flex">
         <div class="width-2">monthly average:</div>
         <div class="width-2" align="right">
-          ${{ (sumDiv() / 12).toFixed(2) }}
+          ${{  Intl.NumberFormat().format(sumDiv() / 12) }}
         </div>
       </div>
     </v-card>

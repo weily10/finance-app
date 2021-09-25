@@ -21,7 +21,38 @@
       "region": "Taiwan"
     }
   ],
-  "assets": [],
+  "assets": [
+    {
+      "assetValue": "178000",
+      "divyield": "5.62",
+      "id": 1
+    },
+    {
+      "assetValue": "178000",
+      "divyield": "5.62",
+      "id": 2
+    },
+    {
+      "assetValue": "69100",
+      "divyield": "3.92",
+      "id": 3
+    },
+    {
+      "assetValue": "92100",
+      "divyield": "5.38",
+      "id": 4
+    },
+    {
+      "assetValue": "34900",
+      "divyield": "6.32",
+      "id": 5
+    },
+    {
+      "assetValue": "101100",
+      "divyield": "7.84",
+      "id": 6
+    }
+  ],
   "get-quotes": [
     {
       "id": 1,
