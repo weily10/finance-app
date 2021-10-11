@@ -32,17 +32,31 @@
         </v-card-text>
       </v-card>
     </v-dialog>
+    <v-row>
+      <v-col class="text-h5 mb-3 grey--text text--darken-1">
+        Freedom Calculator</v-col
+      >
+    </v-row>
     <v-card outlined height="320px" max-height="450px">
       <v-card-title
-        >Assets <v-spacer></v-spacer>
+        >Assets
+        <v-spacer></v-spacer>
         <v-card-actions>
-          <v-btn color="blue" rounded depressed dark @click="dialog1 = true">
-            <v-icon>mdi-plus</v-icon><v-spacer></v-spacer> add
+          <v-btn
+            color="blue"
+            rounded
+            depressed
+            dark
+            width="100px"
+            @click="dialog1 = true"
+          >
+            <v-icon>mdi-plus</v-icon> add
           </v-btn>
-        </v-card-actions></v-card-title
-      >
-
+        </v-card-actions>
+      </v-card-title>
+       <v-divider></v-divider>
       <v-card width="100%" height="230px" elevation="0" class="mx-auto scroll">
+
         <v-list>
           <div v-if="assets.length <= 0">
             <div align="center">no data</div>
@@ -76,46 +90,55 @@
         </v-list>
       </v-card>
     </v-card>
-    <v-card class="mt-3 pa-3" outlined>
-      <div class="ma-3 flex">
-        <div class="width-2">total investment:</div>
-        <div class="width-2" align="right">
-          ${{ Intl.NumberFormat().format(sumAssets()) }}
+    <v-card class="mt-3" outlined>
+      <v-card-title>How much you have</v-card-title>
+      <v-card-text>
+        <div class="flex">
+          <div class="width-2">total investment:</div>
+          <div class="width-2" align="right">
+            ${{ Intl.NumberFormat().format(sumAssets()) }}
+          </div>
         </div>
-      </div>
-      <div class="ma-3 flex">
-        <div class="width-2">total dividends:</div>
-        <div class="width-2" align="right">
-          ${{ Intl.NumberFormat().format(sumDiv()) }}
+        <div class="flex">
+          <div class="width-2">total dividends:</div>
+          <div class="width-2" align="right">
+            ${{ Intl.NumberFormat().format(sumDiv()) }}
+          </div>
         </div>
-      </div>
-      <div class="ma-3 flex">
-        <div class="width-2">monthly average:</div>
-        <div class="width-2" align="right">
-          ${{ Intl.NumberFormat().format(sumDiv() / 12) }}
+        <div class="flex">
+          <div class="width-2">monthly average:</div>
+          <div class="width-2" align="right">
+            ${{ Intl.NumberFormat().format(sumDiv() / 12) }}
+          </div>
         </div>
-      </div>
+      </v-card-text>
     </v-card>
-    <v-card class="mt-3 pa-6" outlined>
-      <v-text-field
-        label="target value(monthly)"
-        type="number"
-        clearable
-        v-model="targetvalue"
-      ></v-text-field>
-      <v-text-field
-        label="yield"
-        v-model="yield1"
-        type="number"
-        suffix="%"
-        clearable
-      ></v-text-field>
+    <v-card class="mt-3" outlined>
+      <v-card-title>
+        Your goal
+      </v-card-title>
+      <v-card-text>
+        <v-text-field
+          label="target value(monthly)"
+          type="number"
+          clearable
+          v-model="targetvalue"
+        ></v-text-field>
+        <v-text-field
+          label="yield"
+          v-model="yield1"
+          type="number"
+          suffix="%"
+          clearable
+        ></v-text-field>
+      </v-card-text>
       <v-card-text v-if="sumDiv() / 12 >= targetvalue">
         you've reached your goal
       </v-card-text>
       <v-card-text v-else>
         <p>
-          ${{ remainValue() }} left to achieve freedom <br class="brnodisplay" />
+          ${{ remainValue() }} left to achieve freedom
+          <br class="brnodisplay" />
           with average {{ yield1 }}% yield
         </p>
       </v-card-text>

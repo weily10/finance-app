@@ -1,8 +1,10 @@
 <template>
   <div>
     <v-row align="center" class="d-flex flex-column flex-sm-row">
-      <v-col>
+      <v-col class="text-h5 grey--text text--darken-1"> Market</v-col>
+      <v-col class="mt-3">
         <v-autocomplete
+          dense
           label="search stocks"
           v-model="stockSearch"
           :search-input.sync="search"
@@ -15,8 +17,14 @@
         >
         </v-autocomplete>
       </v-col>
-      <v-col>
-        <v-select label="select region" :items="regions" v-model="regionSelect" :search-input.sync="search">
+      <v-col class="mt-3">
+        <v-select
+          dense
+          label="select region"
+          :items="regions"
+          v-model="regionSelect"
+          :search-input.sync="search"
+        >
         </v-select>
       </v-col>
     </v-row>
@@ -71,12 +79,12 @@
             <div class="d-flex flex-row">
               <div class="label">Price/Sales</div>
               <v-spacer></v-spacer>
-              <div class="text--primary ">{{ quote.priceSales}}</div>
+              <div class="text--primary ">{{ quote.priceSales }}</div>
             </div>
             <div class="d-flex flex-row">
               <div class="label">Shares</div>
               <v-spacer></v-spacer>
-              <div class="text--primary ">{{ numFormatter(quote.shares)}}</div>
+              <div class="text--primary ">{{ numFormatter(quote.shares) }}</div>
             </div>
           </div>
         </div>
@@ -103,7 +111,7 @@ export default {
   data() {
     return {
       regionSelect: "Taiwan",
-      regions: ["Taiwan", "USA","Brazil"],
+      regions: ["Taiwan", "USA", "Brazil"],
       isLoading: false,
       quotes: [],
       divyield: 0.0,
@@ -123,7 +131,7 @@ export default {
         dividendYield: 0,
         eps: 0,
         shares: 0,
-        priceSales:0,
+        priceSales: 0,
         beta: 0,
       },
     };
@@ -194,6 +202,10 @@ export default {
 </script>
 
 <style scoped>
+.customcss {
+  font-size: 1.5rem;
+  color: rgba(94, 86, 105, 0.68);
+}
 .label {
   width: 100px;
 }

@@ -46,6 +46,16 @@
       "assetValue": "138500",
       "divyield": "7.22",
       "id": 7
+    },
+    {
+      "assetValue": "204500",
+      "divyield": "4.89",
+      "id": 8
+    },
+    {
+      "assetValue": "204500",
+      "divyield": "4.89",
+      "id": 9
     }
   ],
   "get-quotes": [
