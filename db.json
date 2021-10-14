@@ -111,5 +111,12 @@
       "priceSales": 0.49,
       "beta": 0.44
     }
+  ],
+  "users":[
+    {
+      "email":"animal",
+      "password":"123"
+
+    }
   ]
 }

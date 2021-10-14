@@ -1,37 +1,5 @@
 <template>
   <v-container>
-    <v-dialog v-model="dialog1" width="420">
-      <v-card>
-        <v-card-title>
-          Add your asset and dividend
-        </v-card-title>
-        <v-card-text>
-          <v-text-field
-            label="asset value"
-            v-model="assetValue"
-            type="number"
-            clearable
-          ></v-text-field>
-
-          <v-text-field
-            label="dividend yield"
-            v-model="divyield"
-            type="number"
-            suffix="%"
-            clearable
-          ></v-text-field>
-          <v-btn
-            color="blue"
-            dark
-            depressed
-            block
-            clearable
-            @click="addData(assetValue, divyield)"
-            >ok</v-btn
-          >
-        </v-card-text>
-      </v-card>
-    </v-dialog>
     <v-row>
       <v-col class="text-h5 mb-3 grey--text text--darken-1">
         Freedom Calculator</v-col
@@ -54,9 +22,8 @@
           </v-btn>
         </v-card-actions>
       </v-card-title>
-       <v-divider></v-divider>
+      <v-divider></v-divider>
       <v-card width="100%" height="230px" elevation="0" class="mx-auto scroll">
-
         <v-list>
           <div v-if="assets.length <= 0">
             <div align="center">no data</div>
@@ -114,9 +81,7 @@
       </v-card-text>
     </v-card>
     <v-card class="mt-3" outlined>
-      <v-card-title>
-        Your goal
-      </v-card-title>
+      <v-card-title> Your goal </v-card-title>
       <v-card-text>
         <v-text-field
           label="target value(monthly)"
@@ -143,6 +108,36 @@
         </p>
       </v-card-text>
     </v-card>
+    <v-dialog v-model="dialog1" width="420">
+      <v-card>
+        <v-card-title> Add your asset and dividend </v-card-title>
+        <v-card-text>
+          <v-text-field
+            label="asset value"
+            v-model="assetValue"
+            type="number"
+            clearable
+          ></v-text-field>
+
+          <v-text-field
+            label="dividend yield"
+            v-model="divyield"
+            type="number"
+            suffix="%"
+            clearable
+          ></v-text-field>
+          <v-btn
+            color="blue"
+            dark
+            depressed
+            block
+            clearable
+            @click="addData(assetValue, divyield)"
+            >ok</v-btn
+          >
+        </v-card-text>
+      </v-card>
+    </v-dialog>
   </v-container>
 </template>
 
@@ -178,7 +173,7 @@ export default {
           this.assets.splice(this.assets.indexOf(item), 1);
           console.log(res);
         })
-        .catch(function(error) {
+        .catch(function (error) {
           console.error(error);
         });
     },
@@ -198,7 +193,7 @@ export default {
           this.dialog1 = false;
           console.log("success", res);
         })
-        .catch(function(error) {
+        .catch(function (error) {
           console.error(error);
         });
     },

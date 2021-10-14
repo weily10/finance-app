@@ -1,8 +1,8 @@
 <template>
-  <div>
-    <v-row align="center" class="d-flex flex-column flex-sm-row">
-      <v-col class="text-h5 grey--text text--darken-1"> Market</v-col>
-      <v-col class="mt-3">
+  <v-container>
+    <v-row align="center" class="d-flex flex-column flex-sm-row align-start">
+      <v-col class="text-h5 grey--text text--darken-1 pt-0"> Market</v-col>
+      <v-col >
         <v-autocomplete
           dense
           label="search stocks"
@@ -17,8 +17,9 @@
         >
         </v-autocomplete>
       </v-col>
-      <v-col class="mt-3">
+      <v-col >
         <v-select
+        
           dense
           label="select region"
           :items="regions"
@@ -28,6 +29,7 @@
         </v-select>
       </v-col>
     </v-row>
+
     <v-card outlined>
       <v-card-title
         >{{ format(quote.lastPrice) }}<v-spacer></v-spacer>
@@ -100,7 +102,7 @@
     <v-row>
       <v-col> </v-col>
     </v-row>
-  </div>
+  </v-container>
 </template>
 
 <script>
