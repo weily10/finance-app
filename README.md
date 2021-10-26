@@ -1,5 +1,7 @@
 # finance-app
 
+A finance application made with vue.js to calculate the time until someone reaches financial freedom.
+
 ## Project setup
 ```
 npm install
