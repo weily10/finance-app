@@ -42,7 +42,7 @@
                 <v-list-item-content class="width-2">
                   <v-list-item-title>{{ asset.divyield }}%</v-list-item-title>
                   <v-list-item-subtitle class="grey--text"
-                    >anual dividend(%)</v-list-item-subtitle
+                    >annual dividend(%)</v-list-item-subtitle
                   >
                 </v-list-item-content>
                 <v-list-item-action>
