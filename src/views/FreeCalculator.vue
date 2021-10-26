@@ -127,8 +127,9 @@
             clearable
           ></v-text-field>
           <v-btn
+            :disabled="!divyield || divyield===0 || !assetValue || assetValue===0"
             color="blue"
-            dark
+            class="white--text"
             depressed
             block
             clearable
