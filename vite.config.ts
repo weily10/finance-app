@@ -15,6 +15,7 @@ export default defineConfig({
         short_name: 'FFS',
         description: 'An app that calculates how long you would spend to reach financial freedom',
         theme_color: '#42b883',
+        background_color: '#ffffff', 
         icons: [
           {
             src: './public/icon192.png',
