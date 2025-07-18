@@ -11,9 +11,9 @@ export default defineConfig({
       registerType: 'autoUpdate',
       includeAssets: ['favicon.svg', 'robots.txt', 'apple-touch-icon.png'],
       manifest: {
-        name: 'Vue 3 PWA App',
-        short_name: 'VuePWA',
-        description: 'A Progressive Web App with Vue 3',
+        name: 'Finance Freedom Soon',
+        short_name: 'FFS',
+        description: 'An app that calculates how long you would spend to reach financial freedom',
         theme_color: '#42b883',
         icons: [
           {
