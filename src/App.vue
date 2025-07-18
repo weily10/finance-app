@@ -6,7 +6,7 @@
 
 <template>
    
-  <div class="bg-white">
+  <div >
     <router-view></router-view>
   </div>
    
