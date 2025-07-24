@@ -60,8 +60,12 @@ onMounted(() => {
           <div class="flex justify-between">
             <span> {{ item.company }}</span>
             <div>
-              <button type="button" class="" @click="deleteItem(item)">
-                del
+              <button
+                type="button"
+                class="!rounded-full !px-2 !py-1"
+                @click="deleteItem(item)"
+              >
+                <span class="material-symbols-outlined !text-sm"> close </span>
               </button>
             </div>
           </div>
