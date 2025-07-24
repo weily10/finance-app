@@ -55,7 +55,7 @@ onMounted(() => {
   <div class="text-start">
     <h1 class="text-2xl">Input you numbers</h1>
     <div class="mt-5 flex gap-3 flex-wrap">
-      <template v-for="(item, index) in items" :key="item.id">
+      <template v-for="item in items" :key="item.id">
         <div class="p-3 shadow-sm w-75 grow">
           <div class="flex justify-between">
             <span> {{ item.company }}</span>
