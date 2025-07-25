@@ -9,9 +9,10 @@ const showModal = ref(false);
 const amount = ref(0);
 const company = ref("");
 const stockprice = ref(0);
+const baseUrl = import.meta.env.BASE_URL;
 
 async function getData() {
-  const url = "http://localhost:3000/api/transactions";
+  const url = `${baseUrl}/api/transactions`;
   // .post(url, requestBody).then(res => {
   await axios.get(url).then((res) => {
     items.value = res.data;
@@ -20,7 +21,7 @@ async function getData() {
 }
 
 async function addStock() {
-  const url = "http://localhost:3000/api/transactions";
+  const url = `${baseUrl}api/transactions`;
   const requestBody: NewTransaction = {
     type: "dividend",
     amount: amount.value,
@@ -36,7 +37,7 @@ async function addStock() {
 }
 
 function deleteItem(item: Transaction) {
-  const url = `http://localhost:3000/api/transactions/${item._id}`;
+  const url = `${baseUrl}/api/transactions/${item._id}`;
   axios.delete(url).then((res) => {
     items.value.splice(
       items.value.findIndex((i) => i._id === item._id),
