@@ -21,7 +21,7 @@ async function getData() {
 }
 
 async function addStock() {
-  const url = `${baseUrl}api/transactions`;
+  const url = `${baseUrl}/api/transactions`;
   const requestBody: NewTransaction = {
     type: "dividend",
     amount: amount.value,
