@@ -9,7 +9,7 @@ const showModal = ref(false);
 const amount = ref(0);
 const company = ref("");
 const stockprice = ref(0);
-const baseUrl = import.meta.env.BASE_URL;
+const baseUrl = ref("");
 
 async function getData() {
   const url = `${baseUrl}/api/transactions`;
@@ -48,6 +48,7 @@ function deleteItem(item: Transaction) {
 }
 
 onMounted(() => {
+  baseUrl.value = import.meta.env.BASE_URL;
   getData();
 });
 </script>
