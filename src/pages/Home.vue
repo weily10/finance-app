@@ -12,7 +12,6 @@ const stockprice = ref(0);
 
 async function getData() {
   const baseUrl = import.meta.env.VITE_API_BASE_URL;
-  console.log("VITE_API_BASE_URL:", import.meta.env.VITE_API_BASE_URL);
 
   const url = `${baseUrl}/api/transactions`;
 
@@ -23,6 +22,8 @@ async function getData() {
 }
 
 async function addStock() {
+  console.log("VITE_API_BASE_URL:", import.meta.env.VITE_API_BASE_URL);
+
   const baseUrl = import.meta.env.VITE_API_BASE_URL;
   const url = `${baseUrl}/api/transactions`;
   const requestBody: NewTransaction = {
