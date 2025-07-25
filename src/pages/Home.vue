@@ -9,11 +9,12 @@ const showModal = ref(false);
 const amount = ref(0);
 const company = ref("");
 const stockprice = ref(0);
-const baseUrl = ref("");
 
 async function getData() {
+  const baseUrl = import.meta.env.VITE_API_BASE_URL;
+
   const url = `${baseUrl}/api/transactions`;
-  // .post(url, requestBody).then(res => {
+
   await axios.get(url).then((res) => {
     items.value = res.data;
     console.log(res);
@@ -21,6 +22,7 @@ async function getData() {
 }
 
 async function addStock() {
+  const baseUrl = import.meta.env.VITE_API_BASE_URL;
   const url = `${baseUrl}/api/transactions`;
   const requestBody: NewTransaction = {
     type: "dividend",
@@ -37,6 +39,7 @@ async function addStock() {
 }
 
 function deleteItem(item: Transaction) {
+  const baseUrl = import.meta.env.VITE_API_BASE_URL;
   const url = `${baseUrl}/api/transactions/${item._id}`;
   axios.delete(url).then((res) => {
     items.value.splice(
@@ -48,7 +51,6 @@ function deleteItem(item: Transaction) {
 }
 
 onMounted(() => {
-  baseUrl.value = import.meta.env.BASE_URL;
   getData();
 });
 </script>
