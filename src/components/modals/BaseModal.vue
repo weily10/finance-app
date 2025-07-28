@@ -14,7 +14,7 @@ defineProps<{
                 <div class="absolute inset-0 bg-black opacity-40"></div>
 
                 <!-- Modal -->
-                <div class="relative bg-white text-black shadow-lg rounded-lg p-6 w-full ">
+                <div class="relative bg-white text-black shadow-lg rounded-lg p-6 w-full max-w-md">
                     <slot></slot>
                 </div>
             </div>

@@ -6,9 +6,10 @@ import type { Transaction, NewTransaction } from "../types/transaction";
 
 const items = ref<Transaction[]>([]);
 const showModal = ref(false);
-const amount = ref(0);
+const price = ref(0);
 const company = ref("");
 const stockprice = ref(0);
+const stockAmount = ref(0)
 
 async function getData() {
   const baseUrl = import.meta.env.VITE_API_BASE_URL;
@@ -22,15 +23,15 @@ async function getData() {
 }
 
 async function addStock() {
-  console.log("VITE_API_BASE_URL:", import.meta.env.VITE_API_BASE_URL);
 
   const baseUrl = import.meta.env.VITE_API_BASE_URL;
   const url = `${baseUrl}/api/transactions`;
   const requestBody: NewTransaction = {
     type: "dividend",
-    amount: amount.value,
+    price: price.value,
     stockprice: stockprice.value,
     company: company.value,
+    stockAmount: stockAmount.value
   };
 
   await axios.post(url, requestBody).then((res) => {
@@ -52,6 +53,13 @@ function deleteItem(item: Transaction) {
   });
 }
 
+function formatPrice(price) {
+  if (isNaN(price)) return '0.00'
+  return Number(price)
+    .toFixed(2)
+    .replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+}
+
 onMounted(() => {
   getData();
 });
@@ -66,31 +74,21 @@ onMounted(() => {
           <div class="flex justify-between">
             <span> {{ item.company }}</span>
             <div>
-              <button
-                type="button"
-                class="!rounded-full !px-2 !py-1"
-                @click="deleteItem(item)"
-              >
+              <button type="button" class="!rounded-full !px-2 !py-1" @click="deleteItem(item)">
                 <span class="material-symbols-outlined !text-sm"> close </span>
               </button>
             </div>
           </div>
 
           <div>
-            {{ item.stockprice }}
+            {{ formatPrice(item.stockprice * 1000) }} x {{ item.stockAmount }} shares
           </div>
-          <div>
-            {{ item.amount }}
-          </div>
+
         </div>
       </template>
     </div>
     <form>
-      <button
-        type="button"
-        class="mt-3 w-full bg-gray-200"
-        @click="showModal = true"
-      >
+      <button type="button" class="mt-3 w-full bg-gray-200" @click="showModal = true">
         Add new card
       </button>
       <BaseModal :show="showModal">
@@ -99,47 +97,36 @@ onMounted(() => {
           <div>
             <div class="mt-2">
               <label for="">Company Name</label>
-              <input
-                type="input"
-                v-model="company"
+              <input type="input" v-model="company"
                 class="w-full bg-white placeholder:text-slate-400 text-slate-700 border border-slate-200 rounded-md px-3 py-2 transition duration-300 ease focus:outline-none focus:border-slate-400 hover:border-slate-300"
-                placeholder="Type here..."
-              />
+                placeholder="Type here..." />
             </div>
-            <div class="mt-2">
-              <label for="">Stock Price</label>
-              <input
-                id=""
-                type="number"
-                v-model="stockprice"
-                class="w-full bg-white placeholder:text-slate-400 text-slate-700 border border-slate-200 rounded-md px-3 py-2 transition duration-300 ease focus:outline-none focus:border-slate-400 hover:border-slate-300"
-                placeholder="Type here..."
-              />
+            <div class="mt-2 flex gap-3 flex-wrap">
+              <div class="max-w-[12rem]">
+                <label for="">Number of stocks</label>
+                <input id="" type="number" v-model="stockAmount"
+                  class="w-full bg-white placeholder:text-slate-400 text-slate-700 border border-slate-200 rounded-md px-3 py-2 transition duration-300 ease focus:outline-none focus:border-slate-400 hover:border-slate-300"
+                  placeholder="Type here..." />
+              </div>
+              <div class=" max-w-[12rem]">
+                <label for="">Stock Price</label>
+                <input id="" type="number" v-model="stockprice"
+                  class="w-full bg-white placeholder:text-slate-400 text-slate-700 border border-slate-200 rounded-md px-3 py-2 transition duration-300 ease focus:outline-none focus:border-slate-400 hover:border-slate-300"
+                  placeholder="Type here..." />
+              </div>
             </div>
             <div class="mt-2">
               <label for="">Dividend Value</label>
-              <input
-                id=""
-                type="number"
-                v-model="amount"
+              <input id="" type="number" v-model="price"
                 class="w-full bg-white placeholder:text-slate-400 text-slate-700 border border-slate-200 rounded-md px-3 py-2 transition duration-300 ease focus:outline-none focus:border-slate-400 hover:border-slate-300"
-                placeholder="Type here..."
-              />
+                placeholder="Type here..." />
             </div>
           </div>
           <div class="flex gap-3 mt-5 justify-end">
-            <button
-              type="button"
-              class="bg-gray-200 px-3 py-1 font-medium"
-              @click="showModal = false"
-            >
+            <button type="button" class="bg-gray-200 px-3 py-1 font-medium" @click="showModal = false">
               cancel
             </button>
-            <button
-              type="button"
-              class="bg-gray-200 px-3 py-1 font-medium"
-              @click="addStock"
-            >
+            <button type="button" class="bg-gray-200 px-3 py-1 font-medium" @click="addStock">
               add
             </button>
           </div>

@@ -1,9 +1,10 @@
 export interface Transaction {
   _id: string;
-  amount: number;
+  price: number;
   company: string;
   type: string;
-  stockprice: number
+  stockprice: number,
+  stockAmount:number
 }
 
 
