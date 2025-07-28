@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, onMounted } from "vue";
+import { ref, onMounted, computed } from "vue";
 import BaseModal from "../components/modals/BaseModal.vue";
 import axios from "axios";
 import type { Transaction, NewTransaction } from "../types/transaction";
@@ -9,7 +9,8 @@ const showModal = ref(false);
 const price = ref(0);
 const company = ref("");
 const stockprice = ref(0);
-const stockAmount = ref(0)
+const stockAmount = ref(0);
+const divYield = ref(0);
 
 async function getData() {
   const baseUrl = import.meta.env.VITE_API_BASE_URL;
@@ -23,7 +24,6 @@ async function getData() {
 }
 
 async function addStock() {
-
   const baseUrl = import.meta.env.VITE_API_BASE_URL;
   const url = `${baseUrl}/api/transactions`;
   const requestBody: NewTransaction = {
@@ -31,7 +31,7 @@ async function addStock() {
     price: price.value,
     stockprice: stockprice.value,
     company: company.value,
-    stockAmount: stockAmount.value
+    stockAmount: stockAmount.value,
   };
 
   await axios.post(url, requestBody).then((res) => {
@@ -54,18 +54,33 @@ function deleteItem(item: Transaction) {
 }
 
 function formatPrice(price: number) {
-  if (isNaN(price)) return '0.00'
+  if (isNaN(price)) return "0.00";
   return Number(price)
     .toFixed(2)
-    .replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+    .replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 }
 
 function multiplyPrice(price: number, amount: number) {
-  return formatPrice(price * 1000 * amount)
+  return formatPrice(price * 1000 * amount);
 }
 
 onMounted(() => {
   getData();
+});
+
+function formatToPercent(div: number, stockprice: number) {
+  return ((div * 100) / stockprice).toFixed(2) + "%";
+}
+
+const totalStock = computed(() => {
+  return items.value.reduce(
+    (sum, item) => sum + item.stockprice * 1000 * item.stockAmount,
+    0
+  );
+});
+
+const totalDiv = computed(() => {
+  return items.value.reduce((sum, item) => sum + item.price * 1000, 0);
 });
 </script>
 
@@ -77,40 +92,61 @@ onMounted(() => {
         <div class="p-3 shadow-sm w-75 grow">
           <div class="relative">
             <div class="absolute right-0">
-              <button type="button" class="!rounded-full !px-2 !py-1" @click="deleteItem(item)">
+              <button
+                type="button"
+                class="!rounded-full !px-2 !py-1"
+                @click="deleteItem(item)"
+              >
                 <span class="material-symbols-outlined !text-sm"> close </span>
               </button>
             </div>
           </div>
 
-
           <div>
             <span class="text-gray-500 text-sm"> Company </span>
-            <br>
+            <br />
             <span> {{ item.company }}</span>
           </div>
 
           <div class="mt-2 flex justify-between">
-            <div> <span class="text-gray-500 text-sm"> Share price </span> <br>
-              {{ formatPrice(item.stockprice * 1000) }} x {{ item.stockAmount }} shares
+            <div>
+              <span class="text-gray-500 text-sm"> Share price </span> <br />
+              {{ formatPrice(item.stockprice * 1000) }} x
+              {{ item.stockAmount }} shares
             </div>
             <div>
-              <span class="text-gray-500 text-sm"> Total </span> <br>
+              <span class="text-gray-500 text-sm"> Total </span> <br />
               {{ multiplyPrice(item.stockprice, item.stockAmount) }}
             </div>
-
           </div>
-          <div class="mt-2">
-            <span class="text-gray-500 text-sm"> dividend </span>
-            <br>
-            {{ formatPrice(item.price) }}
+          <div class="mt-2 flex justify-between">
+            <div>
+              <span class="text-gray-500 text-sm"> Dividend </span>
+              <br />
+              {{ formatPrice(item.price) }}
+            </div>
+            <div>
+              <span class="text-gray-500 text-sm"> Dividend yield </span>
+              <br />
+              {{ formatToPercent(item.price, item.stockprice) }}
+            </div>
           </div>
-         
         </div>
       </template>
     </div>
+    <div class="border border-purple-200 mt-5 p-3">
+      <div>
+        <span class="text-gray-500 text-sm"> Total dividend </span>
+        <br />
+        <span class="font-bold">{{ formatPrice(totalDiv) }} </span>
+      </div>
+    </div>
     <form>
-      <button type="button" class="mt-3 w-full bg-gray-200" @click="showModal = true">
+      <button
+        type="button"
+        class="mt-3 w-full bg-gray-200"
+        @click="showModal = true"
+      >
         Add new card
       </button>
       <BaseModal :show="showModal">
@@ -119,43 +155,65 @@ onMounted(() => {
           <div>
             <div class="mt-2">
               <label for="">Company Name</label>
-              <input type="input" v-model="company"
+              <input
+                type="input"
+                v-model="company"
                 class="w-full bg-white placeholder:text-slate-400 text-slate-700 border border-slate-200 rounded-md px-3 py-2 transition duration-300 ease focus:outline-none focus:border-slate-400 hover:border-slate-300"
-                placeholder="Type here..." />
+                placeholder="Type here..."
+              />
             </div>
             <div class="mt-2 flex gap-3 flex-wrap">
               <div class="max-w-[12rem]">
                 <label for="">Number of stocks</label>
-                <input id="" type="number" v-model="stockAmount"
+                <input
+                  id=""
+                  type="number"
+                  v-model="stockAmount"
                   class="w-full bg-white placeholder:text-slate-400 text-slate-700 border border-slate-200 rounded-md px-3 py-2 transition duration-300 ease focus:outline-none focus:border-slate-400 hover:border-slate-300"
-                  placeholder="Type here..." />
+                  placeholder="Type here..."
+                />
               </div>
-              <div class=" max-w-[12rem]">
+              <div class="max-w-[12rem]">
                 <label for="">Stock Price</label>
-                <input id="" type="number" v-model="stockprice"
+                <input
+                  id=""
+                  type="number"
+                  v-model="stockprice"
                   class="w-full bg-white placeholder:text-slate-400 text-slate-700 border border-slate-200 rounded-md px-3 py-2 transition duration-300 ease focus:outline-none focus:border-slate-400 hover:border-slate-300"
-                  placeholder="Type here..." />
+                  placeholder="Type here..."
+                />
               </div>
             </div>
             <div class="mt-2">
               <label for="">Dividend Value</label>
-              <input id="" type="number" v-model="price"
+              <input
+                id=""
+                type="number"
+                v-model="price"
                 class="w-full bg-white placeholder:text-slate-400 text-slate-700 border border-slate-200 rounded-md px-3 py-2 transition duration-300 ease focus:outline-none focus:border-slate-400 hover:border-slate-300"
-                placeholder="Type here..." />
+                placeholder="Type here..."
+              />
             </div>
           </div>
           <div class="flex gap-3 mt-5 justify-end">
-            <button type="button" class="bg-gray-200 px-3 py-1 font-medium" @click="showModal = false">
+            <button
+              type="button"
+              class="bg-gray-200 px-3 py-1 font-medium"
+              @click="showModal = false"
+            >
               cancel
             </button>
-            <button type="button" class="bg-gray-200 px-3 py-1 font-medium" @click="addStock">
+            <button
+              type="button"
+              class="bg-gray-200 px-3 py-1 font-medium"
+              @click="addStock"
+            >
               add
             </button>
           </div>
         </div>
       </BaseModal>
     </form>
-
   </div>
 </template>
 
