@@ -53,11 +53,15 @@ function deleteItem(item: Transaction) {
   });
 }
 
-function formatPrice(price) {
+function formatPrice(price: number) {
   if (isNaN(price)) return '0.00'
   return Number(price)
     .toFixed(2)
     .replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+}
+
+function multiplyPrice(price: number, amount: number) {
+  return formatPrice(price * 1000 * amount)
 }
 
 onMounted(() => {
@@ -71,19 +75,37 @@ onMounted(() => {
     <div class="mt-5 flex gap-3 flex-wrap">
       <template v-for="item in items" :key="item.id">
         <div class="p-3 shadow-sm w-75 grow">
-          <div class="flex justify-between">
-            <span> {{ item.company }}</span>
-            <div>
+          <div class="relative">
+            <div class="absolute right-0">
               <button type="button" class="!rounded-full !px-2 !py-1" @click="deleteItem(item)">
                 <span class="material-symbols-outlined !text-sm"> close </span>
               </button>
             </div>
           </div>
 
+
           <div>
-            {{ formatPrice(item.stockprice * 1000) }} x {{ item.stockAmount }} shares
+            <span class="text-gray-500 text-sm"> Company </span>
+            <br>
+            <span> {{ item.company }}</span>
           </div>
 
+          <div class="mt-2 flex justify-between">
+            <div> <span class="text-gray-500 text-sm"> Share price </span> <br>
+              {{ formatPrice(item.stockprice * 1000) }} x {{ item.stockAmount }} shares
+            </div>
+            <div>
+              <span class="text-gray-500 text-sm"> Total </span> <br>
+              {{ multiplyPrice(item.stockprice, item.stockAmount) }}
+            </div>
+
+          </div>
+          <div class="mt-2">
+            <span class="text-gray-500 text-sm"> dividend </span>
+            <br>
+            {{ formatPrice(item.price) }}
+          </div>
+         
         </div>
       </template>
     </div>
@@ -133,6 +155,7 @@ onMounted(() => {
         </div>
       </BaseModal>
     </form>
+
   </div>
 </template>
 
