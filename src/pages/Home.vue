@@ -10,6 +10,7 @@ const price = ref(0);
 const company = ref("");
 const stockprice = ref(0);
 const stockAmount = ref(0);
+const target = ref(0)
 
 async function getData() {
   const baseUrl = import.meta.env.VITE_API_BASE_URL;
@@ -96,6 +97,10 @@ function init() {
 const totalDiv = computed(() => {
   return items.value.reduce((sum, item) => sum + item.price * 1000 * item.stockAmount, 0);
 });
+
+const totalStockInvested = computed(() => {
+  return items.value.reduce((sum, item) => sum + item.stockprice * 1000 * item.stockAmount, 0);
+});
 </script>
 
 <template>
@@ -144,16 +149,45 @@ const totalDiv = computed(() => {
         </div>
       </template>
     </div>
-    <div class="border border-purple-200 mt-5 p-3">
+    <div class="border border-purple-200 mt-5 p-3 grid grid-cols-3">
+      <div>
+        <span class="text-gray-500 text-sm"> Total invested </span>
+        <br />
+        <span class="font-bold">{{ formatNTD(totalStockInvested) }} </span>
+        <div class="text-xs text-gray-500  mt-1">
+           Investment needed for your target
+           <br>
+           <span class="font-bold">{{formatNTD(target)  }} </span>
+        </div>
+      </div>
       <div>
         <span class="text-gray-500 text-sm"> Total dividend </span>
         <br />
         <span class="font-bold">{{ formatNTD(totalDiv) }} </span>
       </div>
+
       <div>
-        <span class="text-gray-500 text-sm"> per month </span>
+        <span class="text-gray-500 text-sm"> Per month </span>
         <br />
         <span class="font-bold">{{ formatNTD(totalDiv / 12) }} </span>
+        <br>
+        <div class="text-sm text-gray-500  ">
+          <div class="mt-1">
+            <span class="">Target</span>
+            <div class="max-w-40">
+              <input
+                class="mt-1 appearance-none border border-gray-200 rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:outline"
+                id=" " type="number" placeholder="value/month" v-model="target">
+            </div>
+          </div>
+         
+        </div>
+      </div>
+      <div>
+        <span class="text-gray-500 text-sm"> Average yield invested </span>
+        <br />
+        <span class="font-bold">{{  formatPrice(totalDiv*100/totalStockInvested) }}% </span>
+        <br>
       </div>
     </div>
     <form>
