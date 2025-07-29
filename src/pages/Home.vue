@@ -10,7 +10,7 @@ const price = ref(0);
 const company = ref("");
 const stockprice = ref(0);
 const stockAmount = ref(0);
-const target = ref(0)
+const target = ref(0);
 
 async function getData() {
   const baseUrl = import.meta.env.VITE_API_BASE_URL;
@@ -60,9 +60,13 @@ function formatPrice(price: number) {
     .replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 }
 
-
 function formatNTD(price: number) {
-  return new Intl.NumberFormat("zh-TW", { style: "currency", currency: "TWD", minimumFractionDigits: 0, maximumFractionDigits: 0 }).format(price)
+  return new Intl.NumberFormat("zh-TW", {
+    style: "currency",
+    currency: "TWD",
+    minimumFractionDigits: 0,
+    maximumFractionDigits: 0,
+  }).format(price);
 }
 
 function multiplyPrice(price: number, amount: number) {
@@ -77,30 +81,33 @@ function formatToPercent(div: number, stockprice: number) {
   return ((div * 100) / stockprice).toFixed(2) + "%";
 }
 
-
 function addNewCard() {
-  init()
-  showModal.value = true
+  init();
+  showModal.value = true;
 }
-
 
 function init() {
-  price.value = 0
-  stockprice.value = 0
-  company.value = ''
-  stockAmount.value = 0
+  price.value = 0;
+  stockprice.value = 0;
+  company.value = "";
+  stockAmount.value = 0;
 }
 
-
-
-
 const totalDiv = computed(() => {
-  return items.value.reduce((sum, item) => sum + item.price * 1000 * item.stockAmount, 0);
+  return items.value.reduce(
+    (sum, item) => sum + item.price * 1000 * item.stockAmount,
+    0
+  );
 });
 
 const totalStockInvested = computed(() => {
-  return items.value.reduce((sum, item) => sum + item.stockprice * 1000 * item.stockAmount, 0);
+  return items.value.reduce(
+    (sum, item) => sum + item.stockprice * 1000 * item.stockAmount,
+    0
+  );
 });
+
+function onInput() {}
 </script>
 
 <template>
@@ -111,7 +118,11 @@ const totalStockInvested = computed(() => {
         <div class="p-3 shadow-sm w-75 grow">
           <div class="relative">
             <div class="absolute right-0">
-              <button type="button" class="!rounded-full !px-2 !py-1" @click="deleteItem(item)">
+              <button
+                type="button"
+                class="!rounded-full !px-2 !py-1"
+                @click="deleteItem(item)"
+              >
                 <span class="material-symbols-outlined !text-sm"> close </span>
               </button>
             </div>
@@ -123,7 +134,7 @@ const totalStockInvested = computed(() => {
             <span> {{ item.company }}</span>
           </div>
 
-          <div class="mt-2 grid grid-cols-3  gap-3">
+          <div class="mt-2 grid grid-cols-3 gap-3">
             <div class="col-span-2">
               <span class="text-gray-500 text-sm"> Share price </span> <br />
               {{ formatPrice(item.stockprice * 1000) }} x
@@ -134,7 +145,7 @@ const totalStockInvested = computed(() => {
               {{ multiplyPrice(item.stockprice, item.stockAmount) }}
             </div>
           </div>
-          <div class="mt-2 grid grid-cols-3  gap-3">
+          <div class="mt-2 grid grid-cols-3 gap-3">
             <div class="col-span-2">
               <span class="text-gray-500 text-sm"> Dividend </span>
               <br />
@@ -149,15 +160,19 @@ const totalStockInvested = computed(() => {
         </div>
       </template>
     </div>
-    <div class="border border-purple-200 mt-5 p-3 grid grid-cols-3">
+    <div
+      class="border border-purple-200 mt-5 p-3 grid grid-cols-2 md:grid-cols-3"
+    >
       <div>
         <span class="text-gray-500 text-sm"> Total invested </span>
         <br />
         <span class="font-bold">{{ formatNTD(totalStockInvested) }} </span>
-        <div class="text-xs text-gray-500  mt-1">
-           Investment needed for your target
-           <br>
-           <span class="font-bold">{{formatNTD(target)  }} </span>
+        <div class="text-xs text-gray-500 mt-1 mb-3 md:mb-0">
+          Investment needed for your target
+          <br />
+          <span class="font-bold"
+            >{{ formatNTD((target * totalStockInvested) / (totalDiv / 12)) }}
+          </span>
         </div>
       </div>
       <div>
@@ -166,28 +181,34 @@ const totalStockInvested = computed(() => {
         <span class="font-bold">{{ formatNTD(totalDiv) }} </span>
       </div>
 
-      <div>
+      <div class="">
         <span class="text-gray-500 text-sm"> Per month </span>
         <br />
         <span class="font-bold">{{ formatNTD(totalDiv / 12) }} </span>
-        <br>
-        <div class="text-sm text-gray-500  ">
+        <br />
+        <div class="text-sm text-gray-500">
           <div class="mt-1">
-            <span class="">Target</span>
+            <span class="">Target per month</span>
             <div class="max-w-40">
               <input
                 class="mt-1 appearance-none border border-gray-200 rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:outline"
-                id=" " type="number" placeholder="value/month" v-model="target">
+                id=" "
+                type="number"
+                placeholder="value/month"
+                v-model="target"
+                @input="onInput"
+              />
             </div>
           </div>
-         
         </div>
       </div>
       <div>
         <span class="text-gray-500 text-sm"> Average yield invested </span>
         <br />
-        <span class="font-bold">{{  formatPrice(totalDiv*100/totalStockInvested) }}% </span>
-        <br>
+        <span class="font-bold"
+          >{{ formatPrice((totalDiv * 100) / totalStockInvested) }}%
+        </span>
+        <br />
       </div>
     </div>
     <form>
@@ -200,36 +221,59 @@ const totalStockInvested = computed(() => {
           <div>
             <div class="mt-2">
               <label for="">Company Name</label>
-              <input type="input" v-model="company"
+              <input
+                type="input"
+                v-model="company"
                 class="w-full bg-white placeholder:text-slate-400 text-slate-700 border border-slate-200 rounded-md px-3 py-2 transition duration-300 ease focus:outline-none focus:border-slate-400 hover:border-slate-300"
-                placeholder="Type here..." />
+                placeholder="Type here..."
+              />
             </div>
             <div class="mt-2 flex gap-3 flex-wrap">
               <div class="max-w-[12rem]">
                 <label for="">Number of stocks</label>
-                <input id="" type="number" v-model="stockAmount"
+                <input
+                  id=""
+                  type="number"
+                  v-model="stockAmount"
                   class="w-full bg-white placeholder:text-slate-400 text-slate-700 border border-slate-200 rounded-md px-3 py-2 transition duration-300 ease focus:outline-none focus:border-slate-400 hover:border-slate-300"
-                  placeholder="Type here..." />
+                  placeholder="Type here..."
+                />
               </div>
               <div class="max-w-[12rem]">
                 <label for="">Stock Price</label>
-                <input id="" type="number" v-model="stockprice"
+                <input
+                  id=""
+                  type="number"
+                  v-model="stockprice"
                   class="w-full bg-white placeholder:text-slate-400 text-slate-700 border border-slate-200 rounded-md px-3 py-2 transition duration-300 ease focus:outline-none focus:border-slate-400 hover:border-slate-300"
-                  placeholder="Type here..." />
+                  placeholder="Type here..."
+                />
               </div>
             </div>
             <div class="mt-2">
               <label for="">Dividend Value</label>
-              <input id="" type="number" v-model="price"
+              <input
+                id=""
+                type="number"
+                v-model="price"
                 class="w-full bg-white placeholder:text-slate-400 text-slate-700 border border-slate-200 rounded-md px-3 py-2 transition duration-300 ease focus:outline-none focus:border-slate-400 hover:border-slate-300"
-                placeholder="Type here..." />
+                placeholder="Type here..."
+              />
             </div>
           </div>
           <div class="flex gap-3 mt-5 justify-end">
-            <button type="button" class="bg-gray-200 px-3 py-1 font-medium" @click="showModal = false">
+            <button
+              type="button"
+              class="bg-gray-200 px-3 py-1 font-medium"
+              @click="showModal = false"
+            >
               cancel
             </button>
-            <button type="button" class="bg-gray-200 px-3 py-1 font-medium" @click="addStock">
+            <button
+              type="button"
+              class="bg-gray-200 px-3 py-1 font-medium"
+              @click="addStock"
+            >
               add
             </button>
           </div>
