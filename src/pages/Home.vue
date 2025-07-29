@@ -11,6 +11,7 @@ const company = ref("");
 const stockprice = ref(0);
 const stockAmount = ref(0);
 const target = ref(0);
+const targetYield = ref(0);
 
 async function getData() {
   const baseUrl = import.meta.env.VITE_API_BASE_URL;
@@ -161,19 +162,12 @@ function onInput() {}
       </template>
     </div>
     <div
-      class="border border-purple-200 mt-5 p-3 grid grid-cols-2 md:grid-cols-3"
+      class="border border-purple-200 mt-5 p-3 grid grid-cols-2 md:grid-cols-4"
     >
       <div>
         <span class="text-gray-500 text-sm"> Total invested </span>
         <br />
         <span class="font-bold">{{ formatNTD(totalStockInvested) }} </span>
-        <div class="text-xs text-gray-500 mt-1 mb-3 md:mb-0">
-          Investment needed for your target
-          <br />
-          <span class="font-bold"
-            >{{ formatNTD((target * totalStockInvested) / (totalDiv / 12)) }}
-          </span>
-        </div>
       </div>
       <div>
         <span class="text-gray-500 text-sm"> Total dividend </span>
@@ -186,21 +180,6 @@ function onInput() {}
         <br />
         <span class="font-bold">{{ formatNTD(totalDiv / 12) }} </span>
         <br />
-        <div class="text-sm text-gray-500">
-          <div class="mt-1">
-            <span class="">Target per month</span>
-            <div class="max-w-40">
-              <input
-                class="mt-1 appearance-none border border-gray-200 rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:outline"
-                id=" "
-                type="number"
-                placeholder="value/month"
-                v-model="target"
-                @input="onInput"
-              />
-            </div>
-          </div>
-        </div>
       </div>
       <div>
         <span class="text-gray-500 text-sm"> Average yield invested </span>
@@ -208,7 +187,48 @@ function onInput() {}
         <span class="font-bold"
           >{{ formatPrice((totalDiv * 100) / totalStockInvested) }}%
         </span>
-        <br />
+      </div>
+    </div>
+    <div
+      class="border border-purple-200 mt-5 p-3 grid grid-cols-2 md:grid-cols-4"
+    >
+      <div class="col-span-4">
+        <p class="text-lg font-semibold">Your target</p>
+      </div>
+
+      <div class="mt-3 md:mb-0">
+        <label class="text-gray-500 text-sm">Investment needed</label>
+
+        <div class="font-bold">
+          {{ formatNTD(((target * 12) / targetYield) * 100) }}
+        </div>
+      </div>
+      <div class="text-sm text-gray-500 mt-3">
+        <div>
+          <label class="text-gray-500 text-sm">Target per month</label>
+          <div class="max-w-40">
+            <input
+              class="mt-1 appearance-none border border-gray-200 rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:outline"
+              id=" "
+              type="number"
+              placeholder="value/month"
+              v-model="target"
+              @input="onInput"
+            />
+          </div>
+        </div>
+      </div>
+      <div class="mt-3 text-sm">
+        <label class="text-gray-500 text-sm">Target yield (%)</label>
+        <div class="max-w-40">
+          <input
+            class="mt-1 appearance-none border border-gray-200 rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:outline"
+            id=" "
+            type="number"
+            placeholder="%"
+            v-model="targetYield"
+          />
+        </div>
       </div>
     </div>
     <form>
