@@ -5,11 +5,11 @@ import axios from "axios";
 import type { Transaction, NewTransaction } from "../types/transaction";
 
 interface ResultRow {
-  period: number
-  investment: number
-  accumulated: number
-  yieldValue: number
-  totalYield: number
+  period: number;
+  investment: number;
+  accumulated: number;
+  yieldValue: number;
+  totalYield: number;
 }
 
 const items = ref<Transaction[]>([]);
@@ -20,11 +20,11 @@ const stockprice = ref(0);
 const stockAmount = ref(0);
 const target = ref(0);
 const targetYield = ref(0);
-const initInv = ref(0)
-const investment = ref(0)
-const period = ref(0)
-const invYield = ref(0)
-const targetResult = ref(<ResultRow[]>([]))
+const initInv = ref(0);
+const investment = ref(0);
+const period = ref(0);
+const invYield = ref(0);
+const targetResult = ref(<ResultRow[]>[]);
 
 async function getData() {
   const baseUrl = import.meta.env.VITE_API_BASE_URL;
@@ -76,7 +76,7 @@ function formatPrice(price: number) {
 
 function formatNTD(price: number) {
   if (!price) {
-    return '$' + 0
+    return "$" + 0;
   } else {
     return new Intl.NumberFormat("zh-TW", {
       style: "currency",
@@ -85,7 +85,6 @@ function formatNTD(price: number) {
       maximumFractionDigits: 0,
     }).format(price);
   }
-
 }
 
 function multiplyPrice(price: number, amount: number) {
@@ -126,32 +125,33 @@ const totalStockInvested = computed(() => {
   );
 });
 
-
 function calculate() {
-  let invested = 0
-  let accumulated = 0
+  targetResult.value = [];
+  let accumulated = initInv.value;
+  let totalYield = 0;
 
   for (let i = 0; i <= period.value; i++) {
-    invested += initInv.value;
-    accumulated = (accumulated + initInv.value) * (1 + invYield.value);
-    ;
-    const totalYield = 0
+    const yieldValue = (invYield.value / 100) * accumulated;
+    totalYield += yieldValue;
+    accumulated += yieldValue;
+
+    if (i !== 0) {
+      accumulated += investment.value;
+    }
 
     targetResult.value.push({
       period: i,
-      investment: invested,
+      investment: i === 0 ? initInv.value : investment.value + initInv.value,
       accumulated: accumulated,
-      yieldValue: invYield.value,
-      totalYield: totalYield
+      yieldValue: yieldValue,
+      totalYield: totalYield,
     });
   }
 
   console.log(targetResult);
-
-
 }
 
-function onInput() { }
+function onInput() {}
 </script>
 
 <template>
@@ -162,7 +162,11 @@ function onInput() { }
         <div class="p-3 shadow-sm w-75 grow">
           <div class="relative">
             <div class="absolute right-0">
-              <button type="button" class="!rounded-full !px-2 !py-1" @click="deleteItem(item)">
+              <button
+                type="button"
+                class="!rounded-full !px-2 !py-1"
+                @click="deleteItem(item)"
+              >
                 <span class="material-symbols-outlined !text-sm"> close </span>
               </button>
             </div>
@@ -200,59 +204,72 @@ function onInput() { }
         </div>
       </template>
     </div>
-    <div class="border border-purple-200 mt-5 p-3 grid grid-cols-2 md:grid-cols-4">
-      <div class="col-span-4 mb-3">
+    <div
+      class="border border-purple-200 mt-5 p-3 grid grid-cols-2 md:grid-cols-4"
+    >
+      <div class="col-span-4 mb-3 text-center">
         <p class="text-lg font-semibold text-purple-700">Your investment</p>
       </div>
-      <div>
+      <div class="col-span-4 md:col-span-1 text-center">
         <span class="text-gray-500 text-sm"> Total invested </span>
         <br />
         <span class="font-bold">{{ formatNTD(totalStockInvested) }} </span>
       </div>
-      <div>
+      <div class="col-span-4 md:col-span-1 text-center">
         <span class="text-gray-500 text-sm"> Total dividend </span>
         <br />
         <span class="font-bold">{{ formatNTD(totalDiv) }} </span>
       </div>
 
-      <div class="">
+      <div class="col-span-4 md:col-span-1 text-center">
         <span class="text-gray-500 text-sm"> Per month </span>
         <br />
         <span class="font-bold">{{ formatNTD(totalDiv / 12) }} </span>
         <br />
       </div>
-      <div>
+      <div class="col-span-4 md:col-span-1 text-center">
         <span class="text-gray-500 text-sm"> Average yield invested </span>
         <br />
-        <span class="font-bold">{{ formatPrice((totalDiv * 100) / totalStockInvested) }}%
+        <span class="font-bold"
+          >{{ formatPrice((totalDiv * 100) / totalStockInvested) }}%
         </span>
       </div>
     </div>
-    <div class="border border-purple-200 mt-5 p-3 grid grid-cols-2 md:grid-cols-3">
-      <div class="col-span-3  text-purple-700">
+    <div
+      class="border border-purple-200 mt-5 p-3 grid grid-cols-2 md:grid-cols-3"
+    >
+      <div class="col-span-3 text-purple-700 text-center">
         <p class="text-lg font-semibold">Your target</p>
       </div>
 
-
-      <div class="text-sm text-gray-500 mt-3">
+      <div class="text-sm text-gray-500 mt-3 col-span-3">
         <div>
           <label class="text-gray-500 text-sm">Target per month</label>
           <div class="max-w-40">
             <input
               class="mt-1 appearance-none border border-gray-200 rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:outline"
-              id=" " type="number" placeholder="value/month" v-model="target" @input="onInput" />
+              id=" "
+              type="number"
+              placeholder="value/month"
+              v-model="target"
+              @input="onInput"
+            />
           </div>
         </div>
       </div>
-      <div class="mt-3 text-sm">
+      <div class="mt-3 text-sm col-span-3">
         <label class="text-gray-500 text-sm">Target yield (%)</label>
         <div class="max-w-40">
           <input
             class="mt-1 appearance-none border border-gray-200 rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:outline"
-            id=" " type="number" placeholder="%" v-model="targetYield" />
+            id=" "
+            type="number"
+            placeholder="%"
+            v-model="targetYield"
+          />
         </div>
       </div>
-      <div class="mt-3 md:mb-0">
+      <div class="mt-3 md:mb-0 col-span-3">
         <label class="text-gray-500 text-sm">Investment needed</label>
 
         <div class="font-bold">
@@ -260,98 +277,113 @@ function onInput() { }
         </div>
       </div>
     </div>
-    <div class="border border-purple-200 mt-5 p-3 grid grid-cols-2 md:grid-cols-5">
-      <div class="col-span-2 md:col-span-5  text-purple-700">
+    <div
+      class="border border-purple-200 mt-5 p-3 grid grid-cols-2 md:grid-cols-5"
+    >
+      <div class="col-span-5 text-purple-700">
         <p class="text-lg font-semibold">Simulate Your target</p>
       </div>
-      <div class="mt-3 text-sm">
+      <div class="mt-3 text-sm col-span-5 sm:col-span-2 lg:col-span-1">
         <label class="text-gray-500 text-sm">Initial Investment</label>
         <div class="max-w-40">
           <input
             class="mt-1 appearance-none border border-gray-200 rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:outline"
-            id=" " type="number" placeholder="" v-model="initInv" />
+            id=" "
+            type="number"
+            placeholder=""
+            v-model="initInv"
+          />
         </div>
       </div>
-      <div class="mt-3 text-sm">
+      <div class="mt-3 text-sm col-span-5 sm:col-span-2 lg:col-span-1">
         <label class="text-gray-500 text-sm">Target investment/year</label>
         <div class="max-w-40">
           <input
             class="mt-1 appearance-none border border-gray-200 rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:outline"
-            id=" " type="number" placeholder="" v-model="investment" />
+            id=" "
+            type="number"
+            placeholder=""
+            v-model="investment"
+          />
         </div>
       </div>
-      <div class="mt-3 text-sm">
+      <div class="mt-3 text-sm col-span-5 sm:col-span-2 lg:col-span-1">
         <label class="text-gray-500 text-sm">Yield</label>
         <div class="max-w-40">
           <input
             class="mt-1 appearance-none border border-gray-200 rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:outline"
-            id=" " type="number" placeholder="%" v-model="invYield" />
+            id=" "
+            type="number"
+            placeholder="%"
+            v-model="invYield"
+          />
         </div>
       </div>
-      <div class="mt-3 text-sm">
+      <div class="mt-3 text-sm col-span-5 sm:col-span-2 lg:col-span-1">
         <label class="text-gray-500 text-sm">Period</label>
         <div class="max-w-40">
           <input
             class="mt-1 appearance-none border border-gray-200 rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:outline"
-            id=" " type="number" placeholder="years" v-model="period" />
+            id=" "
+            type="number"
+            placeholder="years"
+            v-model="period"
+          />
         </div>
       </div>
-      <div class="mt-5 col-span-2 md:col-span-1">
-        <button type="button" class="mt-3 w-full md:w-40  bg-gray-700 text-white" @click="calculate">
+      <div class="mt-5 col-span-5 lg:col-span-1 mb-3">
+        <button
+          type="button"
+          class="mt-3 w-full md:w-40 bg-gray-700 text-white"
+          @click="calculate"
+        >
           Calculate now
         </button>
       </div>
 
       <div class="col-span-5">
-        <hr class="border-gray-300">
+        <hr class="border-gray-300" />
         <div class="border-top-1 mt-3">
-          <table class="table-auto border ">
+          <table class="w-full table-fixed border">
             <thead>
               <tr>
-                <th class="p-2">
-                  Year
-                </th>
-                <th class="p-2">
-                  Total invested
-                </th>
-                <th class="p-2">
-                  Dividend received
-                </th>
-                <th class="p-2">
-                  Total Dividend received
-                </th>
-                <th class="p-2">
-                  Total accumulated
-                </th>
+                <th class="p-2">Year</th>
+                <th class="p-2">Total invested</th>
+                <th class="p-2">Dividend received</th>
+                <th class="p-2">Total Dividend received</th>
+                <th class="p-2">Total accumulated</th>
               </tr>
             </thead>
             <tbody>
               <tr v-for="item in targetResult">
-                <td class="px-2 border  ">
+                <td class="px-2 border">
                   {{ item.period }}
                 </td>
-                <td class="px-2 border  text-end">
-                  {{ item.investment }}
+                <td class="px-2 border text-end">
+                  {{ formatPrice(item.investment) }}
                 </td>
-                <td class="px-2 border  text-end">
-                  {{ item.yieldValue }}
+                <td class="px-2 border text-end">
+                  {{ formatPrice(item.yieldValue) }}
                 </td>
-                <td class="px-2  border text-end">
-                  {{ item.totalYield }}
+                <td class="px-2 border text-end">
+                  {{ formatPrice(item.totalYield) }}
                 </td>
-                <td class="px-2 border  text-end">
-                  {{ item.accumulated }}
+                <td class="px-2 border text-end">
+                  {{ formatPrice(item.accumulated) }}
                 </td>
               </tr>
             </tbody>
           </table>
         </div>
       </div>
-
     </div>
     <form>
       <div class="text-end">
-        <button type="button" class="mt-3 w-full md:w-40  bg-purple-700 text-white" @click="addNewCard">
+        <button
+          type="button"
+          class="mt-3 w-full md:w-40 bg-purple-700 text-white"
+          @click="addNewCard"
+        >
           Add new info
         </button>
       </div>
@@ -361,36 +393,59 @@ function onInput() { }
           <div>
             <div class="mt-2">
               <label for="">Company Name</label>
-              <input type="input" v-model="company"
+              <input
+                type="input"
+                v-model="company"
                 class="w-full bg-white placeholder:text-slate-400 text-slate-700 border border-slate-200 rounded-md px-3 py-2 transition duration-300 ease focus:outline-none focus:border-slate-400 hover:border-slate-300"
-                placeholder="Type here..." />
+                placeholder="Type here..."
+              />
             </div>
             <div class="mt-2 flex gap-3 flex-wrap">
               <div class="max-w-[12rem]">
                 <label for="">Number of stocks</label>
-                <input id="" type="number" v-model="stockAmount"
+                <input
+                  id=""
+                  type="number"
+                  v-model="stockAmount"
                   class="w-full bg-white placeholder:text-slate-400 text-slate-700 border border-slate-200 rounded-md px-3 py-2 transition duration-300 ease focus:outline-none focus:border-slate-400 hover:border-slate-300"
-                  placeholder="Type here..." />
+                  placeholder="Type here..."
+                />
               </div>
               <div class="max-w-[12rem]">
                 <label for="">Stock Price</label>
-                <input id="" type="number" v-model="stockprice"
+                <input
+                  id=""
+                  type="number"
+                  v-model="stockprice"
                   class="w-full bg-white placeholder:text-slate-400 text-slate-700 border border-slate-200 rounded-md px-3 py-2 transition duration-300 ease focus:outline-none focus:border-slate-400 hover:border-slate-300"
-                  placeholder="Type here..." />
+                  placeholder="Type here..."
+                />
               </div>
             </div>
             <div class="mt-2">
               <label for="">Dividend Value</label>
-              <input id="" type="number" v-model="price"
+              <input
+                id=""
+                type="number"
+                v-model="price"
                 class="w-full bg-white placeholder:text-slate-400 text-slate-700 border border-slate-200 rounded-md px-3 py-2 transition duration-300 ease focus:outline-none focus:border-slate-400 hover:border-slate-300"
-                placeholder="Type here..." />
+                placeholder="Type here..."
+              />
             </div>
           </div>
           <div class="flex gap-3 mt-5 justify-end">
-            <button type="button" class="bg-gray-200 px-3 py-1 font-medium" @click="showModal = false">
+            <button
+              type="button"
+              class="bg-gray-200 px-3 py-1 font-medium"
+              @click="showModal = false"
+            >
               cancel
             </button>
-            <button type="button" class="bg-gray-200 px-3 py-1 font-medium" @click="addStock">
+            <button
+              type="button"
+              class="bg-gray-200 px-3 py-1 font-medium"
+              @click="addStock"
+            >
               add
             </button>
           </div>
