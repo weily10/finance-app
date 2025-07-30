@@ -4,6 +4,14 @@ import BaseModal from "../components/modals/BaseModal.vue";
 import axios from "axios";
 import type { Transaction, NewTransaction } from "../types/transaction";
 
+interface ResultRow {
+  period: number
+  investment: number
+  accumulated: number
+  yieldValue: number
+  totalYield: number
+}
+
 const items = ref<Transaction[]>([]);
 const showModal = ref(false);
 const price = ref(0);
@@ -12,6 +20,11 @@ const stockprice = ref(0);
 const stockAmount = ref(0);
 const target = ref(0);
 const targetYield = ref(0);
+const initInv = ref(0)
+const investment = ref(0)
+const period = ref(0)
+const invYield = ref(0)
+const targetResult = ref(<ResultRow[]>([]))
 
 async function getData() {
   const baseUrl = import.meta.env.VITE_API_BASE_URL;
@@ -63,7 +76,7 @@ function formatPrice(price: number) {
 
 function formatNTD(price: number) {
   if (!price) {
-    return '$'+ 0
+    return '$' + 0
   } else {
     return new Intl.NumberFormat("zh-TW", {
       style: "currency",
@@ -112,6 +125,31 @@ const totalStockInvested = computed(() => {
     0
   );
 });
+
+
+function calculate() {
+  let invested = 0
+  let accumulated = 0
+
+  for (let i = 0; i <= period.value; i++) {
+    invested += initInv.value;
+    accumulated = (accumulated + initInv.value) * (1 + invYield.value);
+    ;
+    const totalYield = 0
+
+    targetResult.value.push({
+      period: i,
+      investment: invested,
+      accumulated: accumulated,
+      yieldValue: invYield.value,
+      totalYield: totalYield
+    });
+  }
+
+  console.log(targetResult);
+
+
+}
 
 function onInput() { }
 </script>
@@ -163,6 +201,9 @@ function onInput() { }
       </template>
     </div>
     <div class="border border-purple-200 mt-5 p-3 grid grid-cols-2 md:grid-cols-4">
+      <div class="col-span-4 mb-3">
+        <p class="text-lg font-semibold text-purple-700">Your investment</p>
+      </div>
       <div>
         <span class="text-gray-500 text-sm"> Total invested </span>
         <br />
@@ -187,18 +228,12 @@ function onInput() { }
         </span>
       </div>
     </div>
-    <div class="border border-purple-200 mt-5 p-3 grid grid-cols-2 md:grid-cols-4">
-      <div class="col-span-4">
+    <div class="border border-purple-200 mt-5 p-3 grid grid-cols-2 md:grid-cols-3">
+      <div class="col-span-3  text-purple-700">
         <p class="text-lg font-semibold">Your target</p>
       </div>
 
-      <div class="mt-3 md:mb-0">
-        <label class="text-gray-500 text-sm">Investment needed</label>
 
-        <div class="font-bold">
-          {{ formatNTD(((target * 12) / targetYield) * 100) }}
-        </div>
-      </div>
       <div class="text-sm text-gray-500 mt-3">
         <div>
           <label class="text-gray-500 text-sm">Target per month</label>
@@ -217,11 +252,109 @@ function onInput() { }
             id=" " type="number" placeholder="%" v-model="targetYield" />
         </div>
       </div>
+      <div class="mt-3 md:mb-0">
+        <label class="text-gray-500 text-sm">Investment needed</label>
+
+        <div class="font-bold">
+          {{ formatNTD(((target * 12) / targetYield) * 100) }}
+        </div>
+      </div>
+    </div>
+    <div class="border border-purple-200 mt-5 p-3 grid grid-cols-2 md:grid-cols-5">
+      <div class="col-span-2 md:col-span-5  text-purple-700">
+        <p class="text-lg font-semibold">Simulate Your target</p>
+      </div>
+      <div class="mt-3 text-sm">
+        <label class="text-gray-500 text-sm">Initial Investment</label>
+        <div class="max-w-40">
+          <input
+            class="mt-1 appearance-none border border-gray-200 rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:outline"
+            id=" " type="number" placeholder="" v-model="initInv" />
+        </div>
+      </div>
+      <div class="mt-3 text-sm">
+        <label class="text-gray-500 text-sm">Target investment/year</label>
+        <div class="max-w-40">
+          <input
+            class="mt-1 appearance-none border border-gray-200 rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:outline"
+            id=" " type="number" placeholder="" v-model="investment" />
+        </div>
+      </div>
+      <div class="mt-3 text-sm">
+        <label class="text-gray-500 text-sm">Yield</label>
+        <div class="max-w-40">
+          <input
+            class="mt-1 appearance-none border border-gray-200 rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:outline"
+            id=" " type="number" placeholder="%" v-model="invYield" />
+        </div>
+      </div>
+      <div class="mt-3 text-sm">
+        <label class="text-gray-500 text-sm">Period</label>
+        <div class="max-w-40">
+          <input
+            class="mt-1 appearance-none border border-gray-200 rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:outline"
+            id=" " type="number" placeholder="years" v-model="period" />
+        </div>
+      </div>
+      <div class="mt-5 col-span-2 md:col-span-1">
+        <button type="button" class="mt-3 w-full md:w-40  bg-gray-700 text-white" @click="calculate">
+          Calculate now
+        </button>
+      </div>
+
+      <div class="col-span-5">
+        <hr class="border-gray-300">
+        <div class="border-top-1 mt-3">
+          <table class="table-auto border ">
+            <thead>
+              <tr>
+                <th class="p-2">
+                  Year
+                </th>
+                <th class="p-2">
+                  Total invested
+                </th>
+                <th class="p-2">
+                  Dividend received
+                </th>
+                <th class="p-2">
+                  Total Dividend received
+                </th>
+                <th class="p-2">
+                  Total accumulated
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr v-for="item in targetResult">
+                <td class="px-2 border  ">
+                  {{ item.period }}
+                </td>
+                <td class="px-2 border  text-end">
+                  {{ item.investment }}
+                </td>
+                <td class="px-2 border  text-end">
+                  {{ item.yieldValue }}
+                </td>
+                <td class="px-2  border text-end">
+                  {{ item.totalYield }}
+                </td>
+                <td class="px-2 border  text-end">
+                  {{ item.accumulated }}
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
     </div>
     <form>
-      <button type="button" class="mt-3 w-full bg-gray-200" @click="addNewCard">
-        Add new card
-      </button>
+      <div class="text-end">
+        <button type="button" class="mt-3 w-full md:w-40  bg-purple-700 text-white" @click="addNewCard">
+          Add new info
+        </button>
+      </div>
       <BaseModal :show="showModal">
         <div class="text-lg">Stock info</div>
         <div class="mt-5">
