@@ -62,12 +62,17 @@ function formatPrice(price: number) {
 }
 
 function formatNTD(price: number) {
-  return new Intl.NumberFormat("zh-TW", {
-    style: "currency",
-    currency: "TWD",
-    minimumFractionDigits: 0,
-    maximumFractionDigits: 0,
-  }).format(price);
+  if (!price) {
+    return '$'+ 0
+  } else {
+    return new Intl.NumberFormat("zh-TW", {
+      style: "currency",
+      currency: "TWD",
+      minimumFractionDigits: 0,
+      maximumFractionDigits: 0,
+    }).format(price);
+  }
+
 }
 
 function multiplyPrice(price: number, amount: number) {
@@ -108,7 +113,7 @@ const totalStockInvested = computed(() => {
   );
 });
 
-function onInput() {}
+function onInput() { }
 </script>
 
 <template>
@@ -119,11 +124,7 @@ function onInput() {}
         <div class="p-3 shadow-sm w-75 grow">
           <div class="relative">
             <div class="absolute right-0">
-              <button
-                type="button"
-                class="!rounded-full !px-2 !py-1"
-                @click="deleteItem(item)"
-              >
+              <button type="button" class="!rounded-full !px-2 !py-1" @click="deleteItem(item)">
                 <span class="material-symbols-outlined !text-sm"> close </span>
               </button>
             </div>
@@ -161,9 +162,7 @@ function onInput() {}
         </div>
       </template>
     </div>
-    <div
-      class="border border-purple-200 mt-5 p-3 grid grid-cols-2 md:grid-cols-4"
-    >
+    <div class="border border-purple-200 mt-5 p-3 grid grid-cols-2 md:grid-cols-4">
       <div>
         <span class="text-gray-500 text-sm"> Total invested </span>
         <br />
@@ -184,14 +183,11 @@ function onInput() {}
       <div>
         <span class="text-gray-500 text-sm"> Average yield invested </span>
         <br />
-        <span class="font-bold"
-          >{{ formatPrice((totalDiv * 100) / totalStockInvested) }}%
+        <span class="font-bold">{{ formatPrice((totalDiv * 100) / totalStockInvested) }}%
         </span>
       </div>
     </div>
-    <div
-      class="border border-purple-200 mt-5 p-3 grid grid-cols-2 md:grid-cols-4"
-    >
+    <div class="border border-purple-200 mt-5 p-3 grid grid-cols-2 md:grid-cols-4">
       <div class="col-span-4">
         <p class="text-lg font-semibold">Your target</p>
       </div>
@@ -209,12 +205,7 @@ function onInput() {}
           <div class="max-w-40">
             <input
               class="mt-1 appearance-none border border-gray-200 rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:outline"
-              id=" "
-              type="number"
-              placeholder="value/month"
-              v-model="target"
-              @input="onInput"
-            />
+              id=" " type="number" placeholder="value/month" v-model="target" @input="onInput" />
           </div>
         </div>
       </div>
@@ -223,11 +214,7 @@ function onInput() {}
         <div class="max-w-40">
           <input
             class="mt-1 appearance-none border border-gray-200 rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:outline"
-            id=" "
-            type="number"
-            placeholder="%"
-            v-model="targetYield"
-          />
+            id=" " type="number" placeholder="%" v-model="targetYield" />
         </div>
       </div>
     </div>
@@ -241,59 +228,36 @@ function onInput() {}
           <div>
             <div class="mt-2">
               <label for="">Company Name</label>
-              <input
-                type="input"
-                v-model="company"
+              <input type="input" v-model="company"
                 class="w-full bg-white placeholder:text-slate-400 text-slate-700 border border-slate-200 rounded-md px-3 py-2 transition duration-300 ease focus:outline-none focus:border-slate-400 hover:border-slate-300"
-                placeholder="Type here..."
-              />
+                placeholder="Type here..." />
             </div>
             <div class="mt-2 flex gap-3 flex-wrap">
               <div class="max-w-[12rem]">
                 <label for="">Number of stocks</label>
-                <input
-                  id=""
-                  type="number"
-                  v-model="stockAmount"
+                <input id="" type="number" v-model="stockAmount"
                   class="w-full bg-white placeholder:text-slate-400 text-slate-700 border border-slate-200 rounded-md px-3 py-2 transition duration-300 ease focus:outline-none focus:border-slate-400 hover:border-slate-300"
-                  placeholder="Type here..."
-                />
+                  placeholder="Type here..." />
               </div>
               <div class="max-w-[12rem]">
                 <label for="">Stock Price</label>
-                <input
-                  id=""
-                  type="number"
-                  v-model="stockprice"
+                <input id="" type="number" v-model="stockprice"
                   class="w-full bg-white placeholder:text-slate-400 text-slate-700 border border-slate-200 rounded-md px-3 py-2 transition duration-300 ease focus:outline-none focus:border-slate-400 hover:border-slate-300"
-                  placeholder="Type here..."
-                />
+                  placeholder="Type here..." />
               </div>
             </div>
             <div class="mt-2">
               <label for="">Dividend Value</label>
-              <input
-                id=""
-                type="number"
-                v-model="price"
+              <input id="" type="number" v-model="price"
                 class="w-full bg-white placeholder:text-slate-400 text-slate-700 border border-slate-200 rounded-md px-3 py-2 transition duration-300 ease focus:outline-none focus:border-slate-400 hover:border-slate-300"
-                placeholder="Type here..."
-              />
+                placeholder="Type here..." />
             </div>
           </div>
           <div class="flex gap-3 mt-5 justify-end">
-            <button
-              type="button"
-              class="bg-gray-200 px-3 py-1 font-medium"
-              @click="showModal = false"
-            >
+            <button type="button" class="bg-gray-200 px-3 py-1 font-medium" @click="showModal = false">
               cancel
             </button>
-            <button
-              type="button"
-              class="bg-gray-200 px-3 py-1 font-medium"
-              @click="addStock"
-            >
+            <button type="button" class="bg-gray-200 px-3 py-1 font-medium" @click="addStock">
               add
             </button>
           </div>
