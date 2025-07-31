@@ -129,18 +129,18 @@ function calculate() {
   targetResult.value = [];
   let accumulated = initInv.value;
   let totalYield = 0;
-  let totalinvested = 0
+  let totalinvested = initInv.value
 
   for (let i = 0; i <= period.value; i++) {
-    const yieldValue = (Math.pow(1 + invYield.value / 100, 1 / 12) - 1) * accumulated;
+    const yieldValue = (Math.pow(1 + invYield.value / 100, 1) - 1) * accumulated;
     console.log(yieldValue);
 
     totalYield += yieldValue;
     accumulated += yieldValue;
-    totalinvested += investment.value
+    totalinvested += investment.value 
 
     if (i !== 0) {
-      accumulated += investment.value;
+        accumulated += investment.value;
     }
 
     targetResult.value.push({
