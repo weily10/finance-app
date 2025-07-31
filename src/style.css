@@ -44,6 +44,10 @@ button:focus-visible {
   color: white;
 }
 
+td{
+  @apply p-2
+}
+
 .card {
   padding: 2em;
 }
