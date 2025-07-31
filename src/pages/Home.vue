@@ -129,18 +129,19 @@ function calculate() {
   targetResult.value = [];
   let accumulated = initInv.value;
   let totalYield = 0;
-  let totalinvested = initInv.value
+  let totalinvested = initInv.value;
 
   for (let i = 0; i <= period.value; i++) {
-    const yieldValue = (Math.pow(1 + invYield.value / 100, 1) - 1) * accumulated;
+    const yieldValue =
+      (Math.pow(1 + invYield.value / 100, 1) - 1) * accumulated;
     console.log(yieldValue);
 
     totalYield += yieldValue;
     accumulated += yieldValue;
-    totalinvested += investment.value 
+    totalinvested += investment.value;
 
     if (i !== 0) {
-        accumulated += investment.value;
+      accumulated += investment.value;
     }
 
     targetResult.value.push({
@@ -155,18 +156,22 @@ function calculate() {
   console.log(targetResult);
 }
 
-function onInput() { }
+function onInput() {}
 </script>
 
 <template>
   <div class="text-start">
-    <h1 class="text-2xl">Input you numbers</h1>
+    <h1 class="text-2xl">Finance Dashboard</h1>
     <div class="mt-5 flex gap-3 flex-wrap">
       <template v-for="item in items" :key="item.id">
-        <div class="p-3 shadow-sm w-75 grow">
+        <div class="p-3 border rounded-md border-gray-200 w-75 grow">
           <div class="relative">
             <div class="absolute right-0">
-              <button type="button" class="!rounded-full !px-2 !py-1" @click="deleteItem(item)">
+              <button
+                type="button"
+                class="!rounded-full !px-2 !py-1"
+                @click="deleteItem(item)"
+              >
                 <span class="material-symbols-outlined !text-sm"> close </span>
               </button>
             </div>
@@ -204,7 +209,9 @@ function onInput() { }
         </div>
       </template>
     </div>
-    <div class="border border-gray-200  mt-5 p-3 grid grid-cols-2 md:grid-cols-4 rounded-md">
+    <div
+      class="border border-gray-200 mt-5 p-3 grid grid-cols-2 md:grid-cols-4 rounded-md"
+    >
       <div class="col-span-4 mb-3 text-center">
         <p class="text-lg font-semibold text-purple-700">Your investment</p>
       </div>
@@ -228,11 +235,14 @@ function onInput() { }
       <div class="col-span-4 md:col-span-1 text-center">
         <span class="text-gray-500 text-sm"> Average yield invested </span>
         <br />
-        <span class="font-bold">{{ formatPrice((totalDiv * 100) / totalStockInvested) }}%
+        <span class="font-bold"
+          >{{ formatPrice((totalDiv * 100) / totalStockInvested) }}%
         </span>
       </div>
     </div>
-    <div class="border border-gray-200 mt-5 p-3 grid grid-cols-2 md:grid-cols-3 rounded-md">
+    <div
+      class="border border-gray-200 mt-5 p-3 grid grid-cols-2 md:grid-cols-3 rounded-md"
+    >
       <div class="col-span-3 text-purple-700 text-center">
         <p class="text-lg font-semibold">Your target</p>
       </div>
@@ -243,16 +253,25 @@ function onInput() { }
           <div class="max-w-40">
             <input
               class="mt-1 appearance-none border border-gray-200 rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:outline"
-              id=" " type="number" placeholder="value/month" v-model="target" @input="onInput" />
+              id=" "
+              type="number"
+              placeholder="value/month"
+              v-model="target"
+              @input="onInput"
+            />
           </div>
         </div>
       </div>
-      <div class="mt-3 text-sm col-span-3 md:col-span-1 ">
+      <div class="mt-3 text-sm col-span-3 md:col-span-1">
         <label class="text-gray-500 text-sm">Target yield (%)</label>
         <div class="max-w-40">
           <input
             class="mt-1 appearance-none border border-gray-200 rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:outline"
-            id=" " type="number" placeholder="%" v-model="targetYield" />
+            id=" "
+            type="number"
+            placeholder="%"
+            v-model="targetYield"
+          />
         </div>
       </div>
       <div class="mt-3 md:mb-0 col-span-3 md:col-span-1">
@@ -263,7 +282,9 @@ function onInput() { }
         </div>
       </div>
     </div>
-    <div class="border border-gray-200 mt-5 p-3 grid grid-cols-2 md:grid-cols-5 rounded-md">
+    <div
+      class="border border-gray-200 mt-5 p-3 grid grid-cols-2 md:grid-cols-5 rounded-md"
+    >
       <div class="col-span-5 text-purple-700 text-center">
         <p class="text-lg font-semibold">Simulate Your target</p>
       </div>
@@ -272,7 +293,11 @@ function onInput() { }
         <div class="max-w-40">
           <input
             class="mt-1 appearance-none border border-gray-200 rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:outline"
-            id=" " type="number" placeholder="" v-model="initInv" />
+            id=" "
+            type="number"
+            placeholder=""
+            v-model="initInv"
+          />
         </div>
       </div>
       <div class="mt-3 text-sm col-span-5 sm:col-span-2 lg:col-span-1">
@@ -280,7 +305,11 @@ function onInput() { }
         <div class="max-w-40">
           <input
             class="mt-1 appearance-none border border-gray-200 rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:outline"
-            id=" " type="number" placeholder="" v-model="investment" />
+            id=" "
+            type="number"
+            placeholder=""
+            v-model="investment"
+          />
         </div>
       </div>
       <div class="mt-3 text-sm col-span-5 sm:col-span-2 lg:col-span-1">
@@ -288,7 +317,11 @@ function onInput() { }
         <div class="max-w-40">
           <input
             class="mt-1 appearance-none border border-gray-200 rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:outline"
-            id=" " type="number" placeholder="%" v-model="invYield" />
+            id=" "
+            type="number"
+            placeholder="%"
+            v-model="invYield"
+          />
         </div>
       </div>
       <div class="mt-3 text-sm col-span-5 sm:col-span-2 lg:col-span-1">
@@ -296,11 +329,19 @@ function onInput() { }
         <div class="max-w-40">
           <input
             class="mt-1 appearance-none border border-gray-200 rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:outline"
-            id=" " type="number" placeholder="years" v-model="period" />
+            id=" "
+            type="number"
+            placeholder="years"
+            v-model="period"
+          />
         </div>
       </div>
       <div class="mt-5 col-span-5 lg:col-span-1 mb-3">
-        <button type="button" class="mt-3 w-full md:w-40 bg-gray-700 text-white" @click="calculate">
+        <button
+          type="button"
+          class="mt-3 w-full md:w-40 bg-gray-700 text-white"
+          @click="calculate"
+        >
           Calculate now
         </button>
       </div>
@@ -308,8 +349,12 @@ function onInput() { }
       <div class="col-span-5">
         <hr class="border-gray-300" />
         <div class="relative overflow-x-auto mt-3">
-          <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400 ">
-            <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+          <table
+            class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400"
+          >
+            <thead
+              class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400"
+            >
               <tr>
                 <th class="p-2">Year</th>
 
@@ -325,16 +370,16 @@ function onInput() { }
                   {{ item.period }}
                 </td>
 
-                <td class="  text-end">
+                <td class="text-end">
                   {{ formatPrice(item.yieldValue) }}
                 </td>
-                <td class="   text-end">
+                <td class="text-end">
                   {{ formatPrice(item.totalYield) }}
                 </td>
-                <td class="   text-end">
+                <td class="text-end">
                   {{ formatPrice(item.investment) }}
                 </td>
-                <td class="   text-end">
+                <td class="text-end">
                   {{ formatPrice(item.accumulated) }}
                 </td>
               </tr>
@@ -345,7 +390,11 @@ function onInput() { }
     </div>
     <form>
       <div class="text-end">
-        <button type="button" class="mt-3 w-full md:w-40 bg-purple-700 text-white" @click="addNewCard">
+        <button
+          type="button"
+          class="mt-3 w-full md:w-40 bg-purple-700 text-white"
+          @click="addNewCard"
+        >
           Add new info
         </button>
       </div>
@@ -355,36 +404,59 @@ function onInput() { }
           <div>
             <div class="mt-2">
               <label for="">Company Name</label>
-              <input type="input" v-model="company"
+              <input
+                type="input"
+                v-model="company"
                 class="w-full bg-white placeholder:text-slate-400 text-slate-700 border border-slate-200 rounded-md px-3 py-2 transition duration-300 ease focus:outline-none focus:border-slate-400 hover:border-slate-300"
-                placeholder="Type here..." />
+                placeholder="Type here..."
+              />
             </div>
             <div class="mt-2 flex gap-3 flex-wrap">
               <div class="max-w-[12rem]">
                 <label for="">Number of stocks</label>
-                <input id="" type="number" v-model="stockAmount"
+                <input
+                  id=""
+                  type="number"
+                  v-model="stockAmount"
                   class="w-full bg-white placeholder:text-slate-400 text-slate-700 border border-slate-200 rounded-md px-3 py-2 transition duration-300 ease focus:outline-none focus:border-slate-400 hover:border-slate-300"
-                  placeholder="Type here..." />
+                  placeholder="Type here..."
+                />
               </div>
               <div class="max-w-[12rem]">
                 <label for="">Stock Price</label>
-                <input id="" type="number" v-model="stockprice"
+                <input
+                  id=""
+                  type="number"
+                  v-model="stockprice"
                   class="w-full bg-white placeholder:text-slate-400 text-slate-700 border border-slate-200 rounded-md px-3 py-2 transition duration-300 ease focus:outline-none focus:border-slate-400 hover:border-slate-300"
-                  placeholder="Type here..." />
+                  placeholder="Type here..."
+                />
               </div>
             </div>
             <div class="mt-2">
               <label for="">Dividend Value</label>
-              <input id="" type="number" v-model="price"
+              <input
+                id=""
+                type="number"
+                v-model="price"
                 class="w-full bg-white placeholder:text-slate-400 text-slate-700 border border-slate-200 rounded-md px-3 py-2 transition duration-300 ease focus:outline-none focus:border-slate-400 hover:border-slate-300"
-                placeholder="Type here..." />
+                placeholder="Type here..."
+              />
             </div>
           </div>
           <div class="flex gap-3 mt-5 justify-end">
-            <button type="button" class="bg-gray-200 px-3 py-1 font-medium" @click="showModal = false">
+            <button
+              type="button"
+              class="bg-gray-200 px-3 py-1 font-medium"
+              @click="showModal = false"
+            >
               cancel
             </button>
-            <button type="button" class="bg-gray-200 px-3 py-1 font-medium" @click="addStock">
+            <button
+              type="button"
+              class="bg-gray-200 px-3 py-1 font-medium"
+              @click="addStock"
+            >
               add
             </button>
           </div>
