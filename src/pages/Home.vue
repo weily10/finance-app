@@ -132,7 +132,9 @@ function calculate() {
   let totalinvested = 0
 
   for (let i = 0; i <= period.value; i++) {
-    const yieldValue = (invYield.value / 100) * accumulated;
+    const yieldValue = (Math.pow(1 + invYield.value / 100, 1 / 12) - 1) * accumulated;
+    console.log(yieldValue);
+
     totalYield += yieldValue;
     accumulated += yieldValue;
     totalinvested += investment.value
@@ -202,7 +204,7 @@ function onInput() { }
         </div>
       </template>
     </div>
-    <div class="border border-purple-200 mt-5 p-3 grid grid-cols-2 md:grid-cols-4">
+    <div class="border border-gray-200  mt-5 p-3 grid grid-cols-2 md:grid-cols-4 rounded-md">
       <div class="col-span-4 mb-3 text-center">
         <p class="text-lg font-semibold text-purple-700">Your investment</p>
       </div>
@@ -230,7 +232,7 @@ function onInput() { }
         </span>
       </div>
     </div>
-    <div class="border border-purple-200 mt-5 p-3 grid grid-cols-2 md:grid-cols-3">
+    <div class="border border-gray-200 mt-5 p-3 grid grid-cols-2 md:grid-cols-3 rounded-md">
       <div class="col-span-3 text-purple-700 text-center">
         <p class="text-lg font-semibold">Your target</p>
       </div>
@@ -245,7 +247,7 @@ function onInput() { }
           </div>
         </div>
       </div>
-      <div class="mt-3 text-sm col-span-3 md:col-span-1">
+      <div class="mt-3 text-sm col-span-3 md:col-span-1 ">
         <label class="text-gray-500 text-sm">Target yield (%)</label>
         <div class="max-w-40">
           <input
@@ -261,7 +263,7 @@ function onInput() { }
         </div>
       </div>
     </div>
-    <div class="border border-purple-200 mt-5 p-3 grid grid-cols-2 md:grid-cols-5">
+    <div class="border border-gray-200 mt-5 p-3 grid grid-cols-2 md:grid-cols-5 rounded-md">
       <div class="col-span-5 text-purple-700 text-center">
         <p class="text-lg font-semibold">Simulate Your target</p>
       </div>
@@ -305,34 +307,34 @@ function onInput() { }
 
       <div class="col-span-5">
         <hr class="border-gray-300" />
-        <div class="border-top-1 mt-3">
-          <table class="w-full table-fixed  ">
-            <thead>
+        <div class="relative overflow-x-auto mt-3">
+          <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400 ">
+            <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
               <tr>
                 <th class="p-2">Year</th>
 
-                <th class="p-2">Dividend received</th>
-                <th class="p-2">Total Dividend received</th>
-                <th class="p-2">Total invested</th>
-                <th class="p-2">Total accumulated</th>
+                <th class="p-2 text-end">Dividend received</th>
+                <th class="p-2 text-end">Total Dividend received</th>
+                <th class="p-2 text-end">Total invested</th>
+                <th class="p-2 text-end">Total accumulated</th>
               </tr>
             </thead>
             <tbody>
               <tr v-for="item in targetResult">
-                <td class="px-2 border">
+                <td class="   ">
                   {{ item.period }}
                 </td>
 
-                <td class="px-2 border text-end">
+                <td class="  text-end">
                   {{ formatPrice(item.yieldValue) }}
                 </td>
-                <td class="px-2 border text-end">
+                <td class="   text-end">
                   {{ formatPrice(item.totalYield) }}
                 </td>
-                <td class="px-2 border text-end">
+                <td class="   text-end">
                   {{ formatPrice(item.investment) }}
                 </td>
-                <td class="px-2 border text-end">
+                <td class="   text-end">
                   {{ formatPrice(item.accumulated) }}
                 </td>
               </tr>
@@ -392,8 +394,4 @@ function onInput() { }
   </div>
 </template>
 
-<style scoped>
- 
-
-
-</style>
+<style scoped></style>
