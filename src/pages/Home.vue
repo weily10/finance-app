@@ -24,7 +24,7 @@ const initInv = ref(0);
 const investment = ref(0);
 const period = ref(0);
 const invYield = ref(0);
-const targetResult = ref(<ResultRow[]>[]);
+const targetResult = ref([] as ResultRow[]);
 
 async function getData() {
   const baseUrl = import.meta.env.VITE_API_BASE_URL;
