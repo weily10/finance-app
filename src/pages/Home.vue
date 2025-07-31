@@ -137,10 +137,10 @@ function calculate() {
 
     totalYield += yieldValue;
     accumulated += yieldValue;
-    totalinvested += investment.value 
+    totalinvested += investment.value
 
     if (i !== 0) {
-        accumulated += investment.value;
+      accumulated += investment.value;
     }
 
     targetResult.value.push({
@@ -204,103 +204,109 @@ function onInput() { }
         </div>
       </template>
     </div>
-    <div class="border border-gray-200  mt-5 p-3 grid grid-cols-2 md:grid-cols-4 rounded-md">
-      <div class="col-span-4 mb-3 text-center">
-        <p class="text-lg font-semibold text-purple-700">Your investment</p>
-      </div>
-      <div class="col-span-4 md:col-span-1 text-center">
-        <span class="text-gray-500 text-sm"> Total invested </span>
-        <br />
-        <span class="font-bold">{{ formatNTD(totalStockInvested) }} </span>
-      </div>
-      <div class="col-span-4 md:col-span-1 text-center">
-        <span class="text-gray-500 text-sm"> Total dividend </span>
-        <br />
-        <span class="font-bold">{{ formatNTD(totalDiv) }} </span>
-      </div>
+    <div class="flex gap-3 mt-3">
+      <div class="border border-gray-200   p-3  w-1/2 rounded-md">
+        <div class=" mb-3  ">
+          <p class="text-lg font-semibold text-purple-700">Your investment</p>
+        </div>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+          <div class="">
+            <span class="text-gray-500 text-sm"> Total invested </span>
+            <br />
+            <span class="font-bold">{{ formatNTD(totalStockInvested) }} </span>
+          </div>
+          <div class="">
+            <span class="text-gray-500 text-sm"> Total dividend </span>
+            <br />
+            <span class="font-bold">{{ formatNTD(totalDiv) }} </span>
+          </div>
 
-      <div class="col-span-4 md:col-span-1 text-center">
-        <span class="text-gray-500 text-sm"> Per month </span>
-        <br />
-        <span class="font-bold">{{ formatNTD(totalDiv / 12) }} </span>
-        <br />
-      </div>
-      <div class="col-span-4 md:col-span-1 text-center">
-        <span class="text-gray-500 text-sm"> Average yield invested </span>
-        <br />
-        <span class="font-bold">{{ formatPrice((totalDiv * 100) / totalStockInvested) }}%
-        </span>
-      </div>
-    </div>
-    <div class="border border-gray-200 mt-5 p-3 grid grid-cols-2 md:grid-cols-3 rounded-md">
-      <div class="col-span-3 text-purple-700 text-center">
-        <p class="text-lg font-semibold">Your target</p>
-      </div>
-
-      <div class="text-sm text-gray-500 mt-3 col-span-3 md:col-span-1">
-        <div>
-          <label class="text-gray-500 text-sm">Target per month</label>
-          <div class="max-w-40">
-            <input
-              class="mt-1 appearance-none border border-gray-200 rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:outline"
-              id=" " type="number" placeholder="value/month" v-model="target" @input="onInput" />
+          <div class="">
+            <span class="text-gray-500 text-sm"> Per month </span>
+            <br />
+            <span class="font-bold">{{ formatNTD(totalDiv / 12) }} </span>
+            <br />
+          </div>
+          <div class="">
+            <span class="text-gray-500 text-sm"> Average yield invested </span>
+            <br />
+            <span class="font-bold">{{ formatPrice((totalDiv * 100) / totalStockInvested) }}%
+            </span>
           </div>
         </div>
       </div>
-      <div class="mt-3 text-sm col-span-3 md:col-span-1 ">
-        <label class="text-gray-500 text-sm">Target yield (%)</label>
-        <div class="max-w-40">
-          <input
-            class="mt-1 appearance-none border border-gray-200 rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:outline"
-            id=" " type="number" placeholder="%" v-model="targetYield" />
+      <div class="border border-gray-200  p-3 rounded-md w-1/2  grid grid-cols-2 gap-3">
+        <div class=" text-purple-700  col-span-2">
+          <p class="text-lg font-semibold">Your target</p>
         </div>
-      </div>
-      <div class="mt-3 md:mb-0 col-span-3 md:col-span-1">
-        <label class="text-gray-500 text-sm">Investment needed</label>
 
-        <div class="font-bold">
-          {{ formatNTD(((target * 12) / targetYield) * 100) }}
+        <div class="text-sm text-gray-500 col-span-2   md:col-span-1">
+          <div>
+            <label class="text-gray-500  text-sm">Target per month</label>
+            <div class=" ">
+              <input
+                class="mt-1 appearance-none border border-gray-200 rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:outline"
+                id=" " type="number" placeholder="value/month" v-model="target" @input="onInput" />
+            </div>
+          </div>
+        </div>
+        <div class=" text-sm col-span-2  md:col-span-1">
+          <label class="text-gray-500 text-sm">Target yield (%)</label>
+          <div>
+            <input
+              class="mt-1 appearance-none border border-gray-200 rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:outline"
+              id=" " type="number" placeholder="%" v-model="targetYield" />
+          </div>
+        </div>
+        <div class="  md:mb-0  ">
+          <label class="text-gray-500 text-sm">Investment needed</label>
+
+          <div class="font-bold">
+            {{ formatNTD(((target * 12) / targetYield) * 100) }}
+          </div>
         </div>
       </div>
     </div>
-    <div class="border border-gray-200 mt-5 p-3 grid grid-cols-2 md:grid-cols-5 rounded-md">
+
+
+    <div class="border border-gray-200 mt-5 p-3 grid grid-cols-2 md:grid-cols-5 rounded-md gap-3">
       <div class="col-span-5 text-purple-700 text-center">
         <p class="text-lg font-semibold">Simulate Your target</p>
       </div>
-      <div class="mt-3 text-sm col-span-5 sm:col-span-2 lg:col-span-1">
+      <div class=" text-sm col-span-5 sm:col-span-2 lg:col-span-1">
         <label class="text-gray-500 text-sm">Initial Investment</label>
-        <div class="max-w-40">
+        <div class="md:max-w-40">
           <input
             class="mt-1 appearance-none border border-gray-200 rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:outline"
             id=" " type="number" placeholder="" v-model="initInv" />
         </div>
       </div>
-      <div class="mt-3 text-sm col-span-5 sm:col-span-2 lg:col-span-1">
+      <div class=" text-sm col-span-5 sm:col-span-2 lg:col-span-1">
         <label class="text-gray-500 text-sm">Target investment/year</label>
-        <div class="max-w-40">
+        <div class="md:max-w-40">
           <input
             class="mt-1 appearance-none border border-gray-200 rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:outline"
             id=" " type="number" placeholder="" v-model="investment" />
         </div>
       </div>
-      <div class="mt-3 text-sm col-span-5 sm:col-span-2 lg:col-span-1">
+      <div class=" text-sm col-span-5 sm:col-span-2 lg:col-span-1">
         <label class="text-gray-500 text-sm">Yield</label>
-        <div class="max-w-40">
+        <div class="md:max-w-40">
           <input
             class="mt-1 appearance-none border border-gray-200 rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:outline"
             id=" " type="number" placeholder="%" v-model="invYield" />
         </div>
       </div>
-      <div class="mt-3 text-sm col-span-5 sm:col-span-2 lg:col-span-1">
+      <div class=" text-sm col-span-5 sm:col-span-2 lg:col-span-1">
         <label class="text-gray-500 text-sm">Period</label>
-        <div class="max-w-40">
+        <div class="md:max-w-40">
           <input
             class="mt-1 appearance-none border border-gray-200 rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:outline"
             id=" " type="number" placeholder="years" v-model="period" />
         </div>
       </div>
       <div class="mt-5 col-span-5 lg:col-span-1 mb-3">
-        <button type="button" class="mt-3 w-full md:w-40 bg-gray-700 text-white" @click="calculate">
+        <button type="button" class=" w-full md:w-40 bg-gray-700 text-white" @click="calculate">
           Calculate now
         </button>
       </div>
