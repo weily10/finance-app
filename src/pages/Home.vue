@@ -209,8 +209,8 @@ function onInput() {}
         </div>
       </template>
     </div>
-    <div class="flex gap-3 mt-3">
-      <div class="border border-gray-200   p-3  w-1/2 rounded-md">
+    <div class="flex gap-3 mt-3 flex-wrap">
+      <div class="border border-gray-200   p-3 grow  rounded-md">
         <div class=" mb-3  ">
           <p class="text-lg font-semibold text-purple-700">Your investment</p>
         </div>
