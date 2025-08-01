@@ -210,7 +210,7 @@ function onInput() {}
       </template>
     </div>
     <div class="flex gap-3 mt-3 flex-wrap">
-      <div class="border border-gray-200   p-3 grow  rounded-md">
+      <div class="border border-gray-200    p-3 grow  rounded-md">
         <div class=" mb-3  ">
           <p class="text-lg font-semibold text-purple-700">Your investment</p>
         </div>
@@ -240,7 +240,7 @@ function onInput() {}
           </div>
         </div>
       </div>
-      <div class="border border-gray-200  p-3 rounded-md w-1/2  grid grid-cols-2 gap-3">
+      <div class="border border-gray-200  p-3 rounded-md   grid grid-cols-2 gap-3 grow">
         <div class=" text-purple-700  col-span-2">
           <p class="text-lg font-semibold">Your target</p>
         </div>
