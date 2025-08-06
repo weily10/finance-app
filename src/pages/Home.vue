@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { ref, onMounted, computed } from "vue";
 import BaseModal from "../components/modals/BaseModal.vue";
+import Button from "../components/buttons/Button.vue";
 import axios from "axios";
 import type { Transaction, NewTransaction } from "../types/transaction";
 
@@ -138,7 +139,7 @@ function calculate() {
 
     totalYield += yieldValue;
     accumulated += yieldValue;
-    totalinvested += investment.value
+    totalinvested += investment.value;
 
     if (i !== 0) {
       accumulated += investment.value;
@@ -210,8 +211,8 @@ function onInput() {}
       </template>
     </div>
     <div class="flex gap-3 mt-3 flex-wrap">
-      <div class="border border-gray-200    p-3 grow  rounded-md">
-        <div class=" mb-3  ">
+      <div class="border border-gray-200 p-3 grow rounded-md">
+        <div class="mb-3">
           <p class="text-lg font-semibold text-purple-700">Your investment</p>
         </div>
         <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
@@ -235,35 +236,47 @@ function onInput() {}
           <div class="">
             <span class="text-gray-500 text-sm"> Average yield invested </span>
             <br />
-            <span class="font-bold">{{ formatPrice((totalDiv * 100) / totalStockInvested) }}%
+            <span class="font-bold"
+              >{{ formatPrice((totalDiv * 100) / totalStockInvested) }}%
             </span>
           </div>
         </div>
       </div>
-      <div class="border border-gray-200  p-3 rounded-md   grid grid-cols-2 gap-3 grow">
-        <div class=" text-purple-700  col-span-2">
+      <div
+        class="border border-gray-200 p-3 rounded-md grid grid-cols-2 gap-3 grow"
+      >
+        <div class="text-purple-700 col-span-2">
           <p class="text-lg font-semibold">Your target</p>
         </div>
 
-        <div class="text-sm text-gray-500 col-span-2   md:col-span-1">
+        <div class="text-sm text-gray-500 col-span-2 md:col-span-1">
           <div>
-            <label class="text-gray-500  text-sm">Target per month</label>
+            <label class="text-gray-500 text-sm">Target per month</label>
             <div class=" ">
               <input
                 class="mt-1 appearance-none border border-gray-200 rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:outline"
-                id=" " type="number" placeholder="value/month" v-model="target" @input="onInput" />
+                id=" "
+                type="number"
+                placeholder="value/month"
+                v-model="target"
+                @input="onInput"
+              />
             </div>
           </div>
         </div>
-        <div class=" text-sm col-span-2  md:col-span-1">
+        <div class="text-sm col-span-2 md:col-span-1">
           <label class="text-gray-500 text-sm">Target yield (%)</label>
           <div>
             <input
               class="mt-1 appearance-none border border-gray-200 rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:outline"
-              id=" " type="number" placeholder="%" v-model="targetYield" />
+              id=" "
+              type="number"
+              placeholder="%"
+              v-model="targetYield"
+            />
           </div>
         </div>
-        <div class="  md:mb-0  ">
+        <div class="md:mb-0">
           <label class="text-gray-500 text-sm">Investment needed</label>
 
           <div class="font-bold">
@@ -273,12 +286,13 @@ function onInput() {}
       </div>
     </div>
 
-
-    <div class="border border-gray-200 mt-5 p-3 grid grid-cols-2 md:grid-cols-5 rounded-md gap-3">
+    <div
+      class="border border-gray-200 mt-5 p-3 grid grid-cols-2 md:grid-cols-5 rounded-md gap-3"
+    >
       <div class="col-span-5 text-purple-700 text-center">
         <p class="text-lg font-semibold">Simulate Your target</p>
       </div>
-      <div class=" text-sm col-span-5 sm:col-span-2 lg:col-span-1">
+      <div class="text-sm col-span-5 sm:col-span-2 lg:col-span-1">
         <label class="text-gray-500 text-sm">Initial Investment</label>
         <div class="md:max-w-40">
           <input
@@ -290,7 +304,7 @@ function onInput() {}
           />
         </div>
       </div>
-      <div class=" text-sm col-span-5 sm:col-span-2 lg:col-span-1">
+      <div class="text-sm col-span-5 sm:col-span-2 lg:col-span-1">
         <label class="text-gray-500 text-sm">Target investment/year</label>
         <div class="md:max-w-40">
           <input
@@ -302,7 +316,7 @@ function onInput() {}
           />
         </div>
       </div>
-      <div class=" text-sm col-span-5 sm:col-span-2 lg:col-span-1">
+      <div class="text-sm col-span-5 sm:col-span-2 lg:col-span-1">
         <label class="text-gray-500 text-sm">Yield</label>
         <div class="md:max-w-40">
           <input
@@ -314,7 +328,7 @@ function onInput() {}
           />
         </div>
       </div>
-      <div class=" text-sm col-span-5 sm:col-span-2 lg:col-span-1">
+      <div class="text-sm col-span-5 sm:col-span-2 lg:col-span-1">
         <label class="text-gray-500 text-sm">Period</label>
         <div class="md:max-w-40">
           <input
@@ -327,9 +341,8 @@ function onInput() {}
         </div>
       </div>
       <div class="mt-5 col-span-5 lg:col-span-1 mb-3">
-        <button type="button" class=" w-full md:w-40 bg-gray-700 text-white" @click="calculate">
-          Calculate now
-        </button>
+        <Button :type="'button'" @onClick="calculate" :label="'Calculate now'">
+        </Button>
       </div>
 
       <div class="col-span-5">
@@ -375,14 +388,9 @@ function onInput() {}
       </div>
     </div>
     <form>
-      <div class="text-end">
-        <button
-          type="button"
-          class="mt-3 w-full md:w-40 bg-purple-700 text-white"
-          @click="addNewCard"
-        >
-          Add new info
-        </button>
+      <div class="text-end mt-3">
+        <Button type="button" @onClick="addNewCard" label="Add new info">
+        </Button>
       </div>
       <BaseModal :show="showModal">
         <div class="text-lg">Stock info</div>
@@ -431,20 +439,9 @@ function onInput() {}
             </div>
           </div>
           <div class="flex gap-3 mt-5 justify-end">
-            <button
-              type="button"
-              class="bg-gray-200 px-3 py-1 font-medium"
-              @click="showModal = false"
-            >
-              cancel
-            </button>
-            <button
-              type="button"
-              class="bg-gray-200 px-3 py-1 font-medium"
-              @click="addStock"
-            >
-              add
-            </button>
+            <Button type="button" @click="showModal = false" label="cancel">
+            </Button>
+            <Button type="button" @click="addStock" label="add"> </Button>
           </div>
         </div>
       </BaseModal>

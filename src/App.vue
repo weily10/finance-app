@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import Button from "./components/buttons/Button.vue";
 import router from "./router";
 
 function logout() {
@@ -11,8 +10,11 @@ function logout() {
 <template>
   <div>
     <div class="flex justify-end">
-      <div class="w-25">
-        <Button label="sign out" @onClick="logout"></Button>
+      <div>hi!</div>
+      <div class="w-10">
+        <button type="button" class="p-1" @click="logout">
+          <i class="material-symbols-outlined"> logout </i>
+        </button>
       </div>
     </div>
     <router-view></router-view>
