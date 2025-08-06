@@ -1,15 +1,22 @@
 <script setup lang="ts">
+import Button from "./components/buttons/Button.vue";
+import router from "./router";
 
-
-
- </script>
+function logout() {
+  sessionStorage.removeItem("token");
+  router.push({ name: "Login" });
+}
+</script>
 
 <template>
-   
-  <div class="">
+  <div>
+    <div class="flex justify-end">
+      <div class="w-25">
+        <Button label="sign out" @onClick="logout"></Button>
+      </div>
+    </div>
     <router-view></router-view>
   </div>
-   
 </template>
 
 <style scoped>
