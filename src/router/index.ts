@@ -32,7 +32,8 @@ const router = createRouter({
   routes,
 });
 
-router.beforeEach(async (to, next) => {
+router.beforeEach(async (to, _from, next) => {
+   
   const token = sessionStorage.getItem("token");
   const baseUrl = import.meta.env.VITE_API_BASE_URL;
   const url = `${baseUrl}/api/me`;
