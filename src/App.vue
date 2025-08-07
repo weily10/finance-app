@@ -15,7 +15,7 @@ function logout() {
 </script>
 
 <template>
-  <div class="w-full fixed bg-white   border-b-1 border-gray-200"
+  <div class="w-full fixed bg-white   border-b-1 border-gray-200 z-3"
     v-show="route.name != 'Login' && route.name != 'Register'">
     <div class="flex justify-between p-3">
       <div class="text-2xl font-bold text-purple-700">
@@ -30,7 +30,7 @@ function logout() {
 
     </div>
   </div>
-  <div class="h-100 px-3 pt-[4rem]">
+  <div class="h-100 px-3 pt-[4.5rem]">
     <router-view></router-view>
   </div>
 </template>
