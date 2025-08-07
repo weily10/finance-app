@@ -3,6 +3,7 @@ import Home from "../pages/Home.vue";
 import Login from "../pages/Login.vue";
 import Register from "../pages/Register.vue";
 import axios from "axios";
+import { useUserStore } from "../store/index"
 
 const routes = [
   {
@@ -31,20 +32,37 @@ const router = createRouter({
   routes,
 });
 
-router.beforeEach((to, from, next) => {
-  const token = sessionStorage.getItem("token"); // Or use Vuex, Pinia, etc.
+router.beforeEach(async (to, from, next) => {
+  const token = sessionStorage.getItem("token");
+  const baseUrl = import.meta.env.VITE_API_BASE_URL;
+  const url = `${baseUrl}/api/me`;
+  const userStore = useUserStore();
 
-  if(token){
+  if (token) {
     axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
-  }else{
+    try {
+      const res = await axios.get(url);
+      console.log(res);
+      
+      userStore.setUser(res.data)
+      next()
+    } catch (error) {
+      console.error("Invalid or expired token:", error);
+      sessionStorage.removeItem("token");
+      delete axios.defaults.headers.common["Authorization"];
+      userStore.clearUser();
+      next({ name: "Login" });
+    }
+  } else {
     delete axios.defaults.headers.common["Authorization"];
+    userStore.clearUser();
+    if (to.meta.requiresAuth) {
+      next({ name: "Login" });
+    } else {
+      next();
+    }
   }
 
-  if (to.meta.requiresAuth && !token) {
-    next({ name: "Login" }); // Redirect to login if not authenticated
-  } else {
-    next(); // Proceed normally
-  }
 });
 
 export default router;

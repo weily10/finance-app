@@ -163,7 +163,7 @@ function onInput() {}
 <template>
   <div class="text-start">
     <h1 class="text-2xl">Finance Dashboard</h1>
-    <div class="mt-5 flex gap-3 flex-wrap">
+    <div class="mt-3 flex gap-3 flex-wrap">
       <template v-for="item in items" :key="item.id">
         <div class="p-3 border rounded-md border-gray-200 w-75 grow">
           <div class="relative">
@@ -210,7 +210,7 @@ function onInput() {}
         </div>
       </template>
     </div>
-    <div class="flex gap-3 mt-3 flex-wrap">
+    <div class="flex gap-3  flex-wrap">
       <div class="border border-gray-200 p-3 grow rounded-md">
         <div class="mb-3">
           <p class="text-lg font-semibold text-purple-700">Your investment</p>
@@ -243,13 +243,13 @@ function onInput() {}
         </div>
       </div>
       <div
-        class="border border-gray-200 p-3 rounded-md grid grid-cols-2 gap-3 grow"
+        class="border border-gray-200 p-3 rounded-md grid grid-cols-2 gap-x-3   grow"
       >
-        <div class="text-purple-700 col-span-2">
+        <div class="text-purple-700 col-span-2 mb-3">
           <p class="text-lg font-semibold">Your target</p>
         </div>
-
-        <div class="text-sm text-gray-500 col-span-2 md:col-span-1">
+ 
+        <div class="text-sm text-gray-500 col-span-2 md:col-span-1  ">
           <div>
             <label class="text-gray-500 text-sm">Target per month</label>
             <div class=" ">
@@ -264,7 +264,7 @@ function onInput() {}
             </div>
           </div>
         </div>
-        <div class="text-sm col-span-2 md:col-span-1">
+        <div class="text-sm col-span-2 md:col-span-1 ">
           <label class="text-gray-500 text-sm">Target yield (%)</label>
           <div>
             <input
@@ -287,12 +287,12 @@ function onInput() {}
     </div>
 
     <div
-      class="border border-gray-200 mt-5 p-3 grid grid-cols-2 md:grid-cols-5 rounded-md gap-3"
+      class="border border-gray-200 mt-5 p-3 grid grid-cols-2 md:grid-cols-5 rounded-md  "
     >
-      <div class="col-span-5 text-purple-700 text-center">
+      <div class="col-span-5 text-purple-700 mb-3">
         <p class="text-lg font-semibold">Simulate Your target</p>
       </div>
-      <div class="text-sm col-span-5 sm:col-span-2 lg:col-span-1">
+      <div class="text-sm col-span-5 sm:col-span-2 lg:col-span-1  ">
         <label class="text-gray-500 text-sm">Initial Investment</label>
         <div class="md:max-w-40">
           <input

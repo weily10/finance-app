@@ -17,8 +17,9 @@
  
 body {
   margin: 0;
-   min-width: 320px;
-  min-height: 100vh;
+  min-width: 320px;
+   height: 100%;
+
 }
 
 
@@ -40,8 +41,7 @@ td{
 #app {
   max-width: 1280px;
   margin: 0 auto;
-  padding: 1rem;
- }
+   }
 
 @media (prefers-color-scheme: light) {
   /* :root {
