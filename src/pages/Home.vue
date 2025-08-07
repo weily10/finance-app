@@ -280,7 +280,7 @@ function onInput() { }
       </div>
     </div>
 
-    <div class="border border-gray-200 mt-3 p-3 grid grid-cols-2 md:grid-cols-5 rounded-md  ">
+    <div class="border border-gray-200 mt-3 p-3 grid grid-cols-2 md:grid-cols-5 gap-x-3 rounded-md  ">
       <div class="col-span-5 text-purple-700 mb-3">
         <p class="text-lg font-semibold">Simulate Your target</p>
       </div>
