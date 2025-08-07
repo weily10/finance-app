@@ -1,5 +1,8 @@
-# Vue 3 + TypeScript + Vite
+# PWA APP made with Vue 3 + TypeScript + Vite
 
-This template should help get you started developing with Vue 3 and TypeScript in Vite. The template uses Vue 3 `<script setup>` SFCs, check out the [script setup docs](https://v3.vuejs.org/api/sfc-script-setup.html#sfc-script-setup) to learn more.
+Simple PWA app that gives an insight into how much you need to reach financial freedom based on your stock dividends and target goal. Includes compound interest rate calculator. Include a new user register and login page.
 
-Learn more about the recommended Project Setup and IDE Support in the [Vue Docs TypeScript Guide](https://vuejs.org/guide/typescript/overview.html#project-setup).
+Backend deployed with Render. Frontend deployed with Netlify.
+
+product demo:
+financefreedom.netlify.app
