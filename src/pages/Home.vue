@@ -173,13 +173,14 @@ function onInput() { }
     <div class="mt-3 flex gap-3 flex-wrap border border-dashed border-gray-300 rounded-lg p-3 min-h-50">
       <div class="flex items-center justify-center w-full flex-col" v-show="items.length <= 0">
         <span class="text-gray-500 text-sm">No items here, start adding!</span>
-         
+
       </div>
       <template v-for="item in items" :key="item.id">
         <div class="p-3 border rounded-md border-gray-200 w-75 grow bg-white">
           <div class="relative">
             <div class="absolute right-0 z-1">
-              <ButtonIcon iconClass="material-symbols-outlined !text-sm" icon="close" @onClick="deleteItem(item)"></ButtonIcon>
+              <ButtonIcon iconClass="material-symbols-outlined !text-sm" icon="close" @onClick="deleteItem(item)">
+              </ButtonIcon>
             </div>
           </div>
 
@@ -280,48 +281,47 @@ function onInput() { }
       </div>
     </div>
 
-    <div class="border border-gray-200 mt-3 p-3 grid grid-cols-2 md:grid-cols-5 gap-x-3 rounded-md  ">
-      <div class="col-span-5 text-purple-700 mb-3">
+    <div class="border border-gray-200 mt-3 p-3 grid grid-cols-2 gap-x-3 rounded-md  ">
+      <div class="col-span-2 text-purple-700 mb-3">
         <p class="text-lg font-semibold">Simulate Your target</p>
       </div>
-      <div class="text-sm col-span-5 sm:col-span-2 lg:col-span-1  ">
+      <div class="text-sm  col-span-2 lg:col-span-1">
         <label class="text-gray-500 text-sm">Initial Investment</label>
-        <div class="md:max-w-40">
-          <input
-            class="mt-1 appearance-none border border-gray-200 rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:outline"
-            id=" " type="number" placeholder="" v-model="initInv" />
-        </div>
+        <input
+          class="mt-1 appearance-none border border-gray-200 rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:outline"
+          id=" " type="number" placeholder="" v-model="initInv" />
       </div>
-      <div class="text-sm col-span-5 sm:col-span-2 lg:col-span-1">
+      <div class="text-sm col-span-2 lg:col-span-1">
         <label class="text-gray-500 text-sm">Target investment/year</label>
-        <div class="md:max-w-40">
-          <input
-            class="mt-1 appearance-none border border-gray-200 rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:outline"
-            id=" " type="number" placeholder="" v-model="investment" />
-        </div>
+        <input
+          class="mt-1 appearance-none border border-gray-200 rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:outline"
+          id=" " type="number" placeholder="" v-model="investment" />
       </div>
-      <div class="text-sm col-span-5 sm:col-span-2 lg:col-span-1">
+      <div class="text-sm  col-span-2 lg:col-span-1">
         <label class="text-gray-500 text-sm">Yield</label>
-        <div class="md:max-w-40">
+        <div>
           <input
             class="mt-1 appearance-none border border-gray-200 rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:outline"
             id=" " type="number" placeholder="%" v-model="invYield" />
         </div>
       </div>
-      <div class="text-sm col-span-5 sm:col-span-2 lg:col-span-1">
+      <div class="text-sm col-span-2 lg:col-span-1">
         <label class="text-gray-500 text-sm">Period</label>
-        <div class="md:max-w-40">
+        <div>
           <input
             class="mt-1 appearance-none border border-gray-200 rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:outline"
             id=" " type="number" placeholder="years" v-model="period" />
         </div>
       </div>
-      <div class="mt-5 col-span-5 lg:col-span-1 mb-3">
-        <Button :type="'button'" @onClick="calculate" :label="'Calculate now'">
-        </Button>
+      <div class="mt-5 col-span-2 mb-3 md:col-start-1  md:flex md:justify-end ">
+        <div class="md:max-w-30  "> 
+          <Button :type="'button'" @onClick="calculate" :label="'Calculate now'">
+          </Button>
+        </div>
+
       </div>
 
-      <div class="col-span-5">
+      <div class="col-span-2 ">
         <hr class="border-gray-300" />
         <div class="relative overflow-x-auto mt-3">
           <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
