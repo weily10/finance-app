@@ -20,7 +20,7 @@ async function login() {
 
   const baseUrl = import.meta.env.VITE_API_BASE_URL;
   const url = `${baseUrl}/api/login`;
-  axios.post(url, credentials).then((res) => {
+  await axios.post(url, credentials).then((res) => {
     sessionStorage.setItem("token", res.data.token);
     router.push({ name: "Home" });
     message.value = "Sign in successful"
