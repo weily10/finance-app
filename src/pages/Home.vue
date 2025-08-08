@@ -315,7 +315,7 @@ function onInput() { }
       </div>
       <div class="mt-5 col-span-2 mb-3 md:col-start-1  md:flex md:justify-end ">
         <div class="md:max-w-30  "> 
-          <Button :type="'button'" @onClick="calculate" :label="'Calculate now'">
+          <Button :type="'button'" @onClick="calculate" :label="'Calculate'">
           </Button>
         </div>
 
