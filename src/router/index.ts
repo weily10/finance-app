@@ -3,7 +3,7 @@ import Home from "../pages/Home.vue";
 import Login from "../pages/Login.vue";
 import Register from "../pages/Register.vue";
 import axios from "axios";
-import { useUserStore } from "../store/index"
+import { useUserStore } from "../store/user"
 
 const routes = [
   {
@@ -33,7 +33,7 @@ const router = createRouter({
 });
 
 router.beforeEach(async (to, _from, next) => {
-   
+
   const token = sessionStorage.getItem("token");
   const baseUrl = import.meta.env.VITE_API_BASE_URL;
   const url = `${baseUrl}/api/me`;
@@ -43,8 +43,6 @@ router.beforeEach(async (to, _from, next) => {
     axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
     try {
       const res = await axios.get(url);
-      console.log(res);
-      
       userStore.setUser(res.data)
       next()
     } catch (error) {

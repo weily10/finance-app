@@ -14,6 +14,7 @@ const error = ref("");
 const message = ref("")
 const showModal = ref(false)
 const icon = ref('')
+const iconColor = ref('')
 
 async function register() {
   console.log("adsasd", credentials);
@@ -23,12 +24,16 @@ async function register() {
   axios.post(url, credentials).then(() => {
     message.value = "Sign up success! You will be redirected to login page"
     showModal.value = true
+    icon.value = 'check'
+    iconColor.value = 'text-green-500'
     router.push({ name: 'Login' })
 
   }).catch((e) => {
     console.log(e);
-    message.value = "There was an error when signing up!"
+    message.value = e.response.data.error
     showModal.value = true
+    icon.value = 'warning'
+    iconColor.value = 'text-red-500'
   })
 }
 
