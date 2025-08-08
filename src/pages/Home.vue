@@ -178,7 +178,7 @@ function onInput() { }
       <template v-for="item in items" :key="item.id">
         <div class="p-3 border rounded-md border-gray-200 w-75 grow bg-white">
           <div class="relative">
-            <div class="absolute right-[-10px] z-1">
+            <div class="absolute right-0 z-1">
               <ButtonIcon iconClass="material-symbols-outlined !text-sm" icon="close" @onClick="deleteItem(item)"></ButtonIcon>
             </div>
           </div>
