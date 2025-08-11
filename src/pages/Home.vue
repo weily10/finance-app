@@ -166,7 +166,7 @@ function onInput() { }
     <div class="flex justify-between items-end">
       <h1 class="text-2xl">Finance Dashboard</h1>
       <div>
-        <Button type="button" @onClick="addNewCard" label="Add new info">
+        <Button type="button" @onClick="addNewCard" label="Add new info" color="bg-purple-700 hover:bg-purple-900 ">
         </Button>
       </div>
     </div>
@@ -179,7 +179,7 @@ function onInput() { }
         <div class="p-3 border rounded-md border-gray-200 w-75 grow bg-white">
           <div class="relative">
             <div class="absolute right-0 z-1">
-              <ButtonIcon iconClass="material-symbols-outlined !text-sm" icon="close" @onClick="deleteItem(item)">
+              <ButtonIcon iconClass="material-symbols-outlined !text-sm" icon="close" @onClick="deleteItem(item)" >
               </ButtonIcon>
             </div>
           </div>
@@ -315,7 +315,7 @@ function onInput() { }
       </div>
       <div class="mt-5 col-span-2 mb-3 md:col-start-1  md:flex md:justify-end ">
         <div class="md:max-w-30  "> 
-          <Button :type="'button'" @onClick="calculate" :label="'Calculate'">
+          <Button :type="'button'" @onClick="calculate" :label="'Calculate'" color="bg-purple-700 hover:bg-purple-900 ">
           </Button>
         </div>
 
@@ -393,9 +393,9 @@ function onInput() { }
             </div>
           </div>
           <div class="flex gap-3 mt-5 justify-end">
-            <Button type="button" @click="showModal = false" label="cancel">
+            <Button type="button" @click="showModal = false" label="Cancel" color="bg-gray-600 hover:bg-gray-900 ">
             </Button>
-            <Button type="button" @click="addStock" label="add"> </Button>
+            <Button type="button" @click="addStock" label="Add" color="bg-purple-700 hover:bg-purple-900 "> </Button>
           </div>
         </div>
       </BaseModal>
