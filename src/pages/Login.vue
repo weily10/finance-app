@@ -4,17 +4,15 @@ import Button from "../components/buttons/Button.vue";
 import Input from "../components/inputs/Input.vue";
 import axios from "axios";
 import router from "../router";
-import Toast from "../components/modals/Toast.vue";
+import { toastStore } from "../store";
 
 const credentials = reactive({
   email: "",
   password: "",
 });
-const message = ref("")
-const showModal = ref(false)
 const error = ref("");
-const icon = ref('')
-const iconColor = ref('')
+const store = toastStore()
+
 
 async function login() {
 
@@ -23,27 +21,21 @@ async function login() {
   await axios.post(url, credentials).then((res) => {
     sessionStorage.setItem("token", res.data.token);
     router.push({ name: "Home" });
-    message.value = "Sign in successful"
-    showModal.value = true
-    icon.value = 'check'
-    iconColor.value = 'text-green-500'
+    store.message = "Sign in successful"
+    store.showModal = true
+    store.icon = 'check'
+    store.iconColor = 'text-green-500'
   }).catch((e) => {
     console.log(e);
-    message.value = e.response.data.error
-    showModal.value = true
-    icon.value = 'warning'
-    iconColor.value = 'text-red-500'
+    store.message = e.response.data.error
+    store.showModal = true
+    store.icon = 'warning'
+    store.iconColor = 'text-red-500'
   })
 }
 
 
-function closeToast() {
-  showModal.value = false
-}
 
-function onToastClosed() {
-  showModal.value = false
-}
 
 </script>
 
@@ -67,13 +59,9 @@ function onToastClosed() {
             <p class="mt-3 text-sm text-gray-400 text-center">New user? <span
                 class="text-purple-700 font-bold cursor-pointer" @click="router.push({ name: 'Register' })">Sign Up</span>
             </p>
-
           </div>
-
         </div>
       </div>
-      <Toast :message="message" :show="showModal" @close="closeToast" @autoclose="onToastClosed" :icon="icon"
-        :iconColor="iconColor"></Toast>
     </div>
   </div>
 </template>

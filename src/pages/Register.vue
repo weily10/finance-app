@@ -2,50 +2,41 @@
 import { ref, reactive } from "vue";
 import Button from "../components/buttons/Button.vue";
 import Input from "../components/inputs/Input.vue";
-import Toast from "../components/modals/Toast.vue";
-import axios from "axios";
+ import axios from "axios";
 import router from "../router";
+import { toastStore } from "../store";
+
+const store = toastStore()
 
 const credentials = reactive({
   email: "",
   password: "",
 });
 const error = ref("");
-const message = ref("")
-const showModal = ref(false)
-const icon = ref('')
-const iconColor = ref('')
+
 
 async function register() {
-  console.log("adsasd", credentials);
-
+ 
   const baseUrl = import.meta.env.VITE_API_BASE_URL;
   const url = `${baseUrl}/api/register`;
   axios.post(url, credentials).then(() => {
-    message.value = "Sign up success! You will be redirected to login page"
-    showModal.value = true
-    icon.value = 'check'
-    iconColor.value = 'text-green-500'
+    store.message = "Sign up success! You will be redirected to login page"
+    store.icon = 'check'
+    store.iconColor = 'text-green-500'
+    store.openToast()
     router.push({ name: 'Login' })
 
   }).catch((e) => {
     console.log(e);
-    message.value = e.response.data.error
-    showModal.value = true
-    icon.value = 'warning'
-    iconColor.value = 'text-red-500'
+    store.message = e.response.data.error
+    store.openToast()
+    store.icon = 'warning'
+    store.iconColor = 'text-red-500'
   })
 }
 
 
-function closeToast() {
-  showModal.value = false
-}
-
-function onToastClosed() {
-  showModal.value = false
-}
-
+ 
 </script>
 
 <template>
@@ -71,7 +62,6 @@ function onToastClosed() {
         </div>
       </div>
 
-      <Toast :message="message" :show="showModal" @close="closeToast" @autoclose="onToastClosed"   :icon="icon"></Toast>
-    </div>
+     </div>
   </div>
 </template>

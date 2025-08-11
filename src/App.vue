@@ -2,9 +2,11 @@
 import router from "./router";
 import { useRoute } from 'vue-router'
 import ButtonIcon from "./components/buttons/ButtonIcon.vue";
-import { useUserStore } from './store/index'
+import { useUserStore, toastStore } from './store/index'
+import Toast from "./components/modals/Toast.vue";
 
 const store = useUserStore()
+const toast_store = toastStore()
 const route = useRoute()
 
 function logout() {
@@ -29,8 +31,10 @@ function logout() {
       </div>
 
     </div>
-  </div>
-  <div class="h-100 px-3 pt-[4.5rem] lg:mx-[15%]  "  >
+       <Toast :message="toast_store.message" @close="toast_store.closeToast" :show="toast_store.showModal"
+        @autoclose="toast_store.closeToast" :icon="toast_store.icon" :iconColor="toast_store.iconColor"></Toast>
+   </div>
+  <div class="h-100 px-3 pt-[4.5rem] lg:mx-[15%]  ">
     <router-view></router-view>
   </div>
 </template>
