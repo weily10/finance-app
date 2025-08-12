@@ -51,7 +51,7 @@ async function login() {
             <Input type="password" label="password" v-model:model="credentials.password" class="mt-3"
               :placeholder="'minimun 8 digits'"></Input>
             <div class="mt-4">
-              <Button label="Login" :type="'submit'" :disabled="!credentials.password || !credentials.email"></Button>
+              <Button label="Login" :type="'submit'" :disabled="!credentials.password || !credentials.email" color="bg-purple-700 hover:bg-purple-900 "></Button>
               <p v-show="error">{{ error }}</p>
             </div>
           </form>
