@@ -12,25 +12,29 @@ const credentials = reactive({
 });
 const error = ref("");
 const store = toastStore()
+const loading = ref(false)
 
 
 async function login() {
-
+  loading.value = true
   const baseUrl = import.meta.env.VITE_API_BASE_URL;
   const url = `${baseUrl}/api/login`;
   await axios.post(url, credentials).then((res) => {
+    
     sessionStorage.setItem("token", res.data.token);
     router.push({ name: "Home" });
     store.message = "Sign in successful"
     store.showModal = true
     store.icon = 'check'
     store.iconColor = 'text-green-500'
+    loading.value = false
   }).catch((e) => {
     console.log(e);
     store.message = e.response.data.error
     store.showModal = true
     store.icon = 'warning'
     store.iconColor = 'text-red-500'
+    loading.value = false
   })
 }
 
@@ -51,7 +55,7 @@ async function login() {
             <Input type="password" label="password" v-model:model="credentials.password" class="mt-3"
               :placeholder="'minimun 8 digits'"></Input>
             <div class="mt-4">
-              <Button label="Login" :type="'submit'" :disabled="!credentials.password || !credentials.email" color="bg-purple-700 hover:bg-purple-900 "></Button>
+              <Button label="Login" :type="'submit'" :disabled="!credentials.password || !credentials.email" color="bg-purple-700 hover:bg-purple-900 " :loading="loading"></Button>
               <p v-show="error">{{ error }}</p>
             </div>
           </form>

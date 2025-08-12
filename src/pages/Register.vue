@@ -7,7 +7,7 @@ import router from "../router";
 import { toastStore } from "../store";
 
 const store = toastStore()
-
+const loading = ref(false)
 const credentials = reactive({
   email: "",
   password: "",
@@ -16,7 +16,7 @@ const error = ref("");
 
 
 async function register() {
- 
+  loading.value = true
   const baseUrl = import.meta.env.VITE_API_BASE_URL;
   const url = `${baseUrl}/api/register`;
   axios.post(url, credentials).then(() => {
@@ -25,13 +25,14 @@ async function register() {
     store.iconColor = 'text-green-500'
     store.openToast()
     router.push({ name: 'Login' })
-
+    loading.value = false
   }).catch((e) => {
     console.log(e);
     store.message = e.response.data.error
     store.openToast()
     store.icon = 'warning'
     store.iconColor = 'text-red-500'
+    loading.value = false
   })
 }
 
@@ -53,7 +54,7 @@ async function register() {
             <Input type="password" label="password" v-model:model="credentials.password" class="mt-3"
               :placeholder="'minimun 8 digits'"></Input>
             <div class="mt-4">
-              <Button label="Sign Up" :type="'submit'" :disabled="!credentials.password || !credentials.email" color="bg-purple-700 hover:bg-purple-900 "></Button>
+              <Button label="Sign Up" :type="'submit'" :disabled="!credentials.password || !credentials.email" color="bg-purple-700 hover:bg-purple-900 " :loading="loading"></Button>
               <p v-show="error">{{ error }}</p>
             </div>
           </form>
