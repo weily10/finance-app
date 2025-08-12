@@ -53,7 +53,7 @@ watch(
             leave-from-class="opacity-100  " leave-to-class="opacity-0  ">
             <div v-if="show" class="fixed bottom-0  left-1/2 -translate-x-1/2   p-5">
                 <div id="toast-default"
-                    class="flex justify-center  w-full max-w-xs p-4 text-gray-500 bg-white rounded-lg shadow-sm dark:text-gray-400 dark:bg-gray-800 w-full"
+                    class="flex justify-center  w-full max-w-xs p-4 text-gray-500 bg-white rounded-lg shadow-sm dark:text-gray-400   w-full"
                     role="alert">
                     <div :class="props.iconColor">
                         <span class="material-symbols-outlined">
